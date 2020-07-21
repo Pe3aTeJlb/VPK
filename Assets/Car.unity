@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2449,12 +2449,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vehicleTorque:
-    maxVelocityKMh: 130
-    engineTorque: 3
+    maxVelocityKMh: 90
+    engineTorque: 100
     numberOfGears: 5
     speedOfGear: 1.5
     manualAdjustmentOfTorques:
-    - 1.1
+    - 0.5
     - 1
     - 1
     - 1
@@ -2859,7 +2859,7 @@ MonoBehaviour:
     vehicleMass: 5000
     improveControl:
       tireSlipsFactor: 0.85
-      helpToTurn: 0.35
+      helpToTurn: 2
       helpToStraightenOut: 0.1
       downForce: 2
     _aerodynamics:
@@ -2870,7 +2870,7 @@ MonoBehaviour:
       minDownForceValue: 2
     centerOfMass: {fileID: 1161710716}
   axleInfos:
-  - wheelMass: 100
+  - wheelMass: 2500
     rightWheel:
       wheelMesh: {fileID: 8731878890823489000}
       wheelCollider: {fileID: 612250013588749575}
@@ -2899,7 +2899,7 @@ MonoBehaviour:
       wheelColliderRPM: 0
       forwardSkid: 0
       sidewaysSkid: 0
-  - wheelMass: 100
+  - wheelMass: 2500
     rightWheel:
       wheelMesh: {fileID: 8731878890823488998}
       wheelCollider: {fileID: 612250014036039764}
@@ -2928,7 +2928,7 @@ MonoBehaviour:
       wheelColliderRPM: 0
       forwardSkid: 0
       sidewaysSkid: 0
-  - wheelMass: 100
+  - wheelMass: 2500
     rightWheel:
       wheelMesh: {fileID: 8731878890823488994}
       wheelCollider: {fileID: 612250012611922658}
@@ -2969,7 +2969,10 @@ MonoBehaviour:
   up: {fileID: 515455170}
   down: {fileID: 926245042}
   brake: {fileID: 1188651655}
-  stWheelController: {fileID: 478781971, guid: 48651f161befd54438ad881c806e6bf4, type: 3}
+  stWheelController: {fileID: 40660762637879910}
+  gearRatio: 20
+  maxSteeringAngle: 30
+  maxAngleVolant: 30
   KMh: 0
   currentGear: 0
   disableVehicle: 0

@@ -33,8 +33,11 @@ public class SimpleCarController : MonoBehaviour
 
 	public UIButtonInfo up, down, brake;
     public SteeringWheel stWheelController;
+	public int gearRatio;
+	public int maxSteeringAngle;
 
-    float verticalInput = 0;
+
+	float verticalInput = 0;
     float horizontalInput = 0;
 
 	bool changinGearsAuto;
@@ -64,7 +67,7 @@ public class SimpleCarController : MonoBehaviour
 	float engineSoundFactor;
 	float vehicleScale;
 
-	float maxAngleVolant;
+	public float maxAngleVolant;
 
 	float torqueM;
 	float rpmTempTorque;
@@ -189,9 +192,8 @@ public class SimpleCarController : MonoBehaviour
 	Quaternion quatMesh3;
 	Quaternion quatMesh4;
 
-	[HideInInspector]
+	
 	public float KMh;
-	[HideInInspector]
 	public int currentGear;
 	[HideInInspector]
 	public bool disableVehicle = false;
@@ -206,7 +208,7 @@ public class SimpleCarController : MonoBehaviour
         up = GameObject.FindGameObjectWithTag("Up").GetComponent<UIButtonInfo>();
         down = GameObject.FindGameObjectWithTag("Down").GetComponent<UIButtonInfo>();
         brake = GameObject.FindGameObjectWithTag("Brake").GetComponent<UIButtonInfo>();
-		//stWheelController.maximumSteeringAngle = gearRatio * maxSteeringAngle;
+		stWheelController.maximumSteeringAngle = gearRatio * maxSteeringAngle;
 
 		forceEngineBrake = 0.75f * _vehicleSettings.vehicleMass;
 		vehicleScale = transform.lossyScale.y;
