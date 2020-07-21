@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Up
   - Down
+  - Steering-wheel
+  - Brake
   layers:
   - Default
   - TransparentFX
