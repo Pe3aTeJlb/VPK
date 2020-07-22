@@ -217,13 +217,15 @@ namespace GoogleARCore.Examples.Common
                 if (Session.IsDepthModeSupported(DepthMode.Automatic))
                 {
                     m_DepthState = DepthState.DepthDisabled;
-                    m_MenuText.text = "Your device supports depth.";
+                    //m_MenuText.text = "Your device supports depth.";
+                    m_MenuText.text = "Ваше устройство поддерживает камеру глубины";
                 }
                 else
                 {
                     _ConfigureDepth(false);
                     m_DepthState = DepthState.DepthNotAvailable;
-                    m_MenuText.text = "Your device doesn't support depth.";
+                    //m_MenuText.text = "Your device doesn't support depth.";
+                    m_MenuText.text = "Ваше устройство не поддерживает камеру глубины";
                 }
 
                 _ResetToggle();

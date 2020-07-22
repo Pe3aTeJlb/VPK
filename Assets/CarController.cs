@@ -591,7 +591,7 @@ public class CarController : MonoBehaviour
 		
 		//
 		DiscoverAverageRpm();
-		//TurnOnEngine();
+		TurnOnEngine();
 		Sounds();
 		UpdateWheelMeshes();
 		AutomaticGears();
@@ -1569,7 +1569,6 @@ public class CarController : MonoBehaviour
 		brakeVerticalInput = 0.0f;
 
 		brakeVerticalInput = verticalInput;
-		
 		//Freio de pé
 		if (currentGear > 0)
 		{

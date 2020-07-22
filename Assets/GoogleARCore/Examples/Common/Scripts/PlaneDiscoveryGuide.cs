@@ -241,20 +241,25 @@ namespace GoogleARCore.Examples.Common
                 switch (Session.LostTrackingReason)
                 {
                     case LostTrackingReason.InsufficientLight:
-                        m_SnackBarText.text = "Too dark. Try moving to a well-lit area.";
+                        //m_SnackBarText.text = "Too dark. Try moving to a well-lit area.";
+                        m_SnackBarText.text = "Слишком темно. Попробуйте переместиться в более освещённое место";
                         break;
                     case LostTrackingReason.InsufficientFeatures:
-                        m_SnackBarText.text = "Aim device at a surface with more texture or color.";
+                        //m_SnackBarText.text = "Aim device at a surface with more texture or color.";
+                        m_SnackBarText.text = "Направьте устройство на поверхность с большим количеством мелких деталей";
                         break;
                     case LostTrackingReason.ExcessiveMotion:
-                        m_SnackBarText.text = "Moving too fast. Slow down.";
+                        //m_SnackBarText.text = "Moving too fast. Slow down.";
+                        m_SnackBarText.text = "Слишком быстрое перемещение.";
                         break;
                     case LostTrackingReason.CameraUnavailable:
-                        m_SnackBarText.text = "Another app is using the camera. Tap on this app " +
-                            "or try closing the other one.";
+                        //  m_SnackBarText.text = "Another app is using the camera. Tap on this app " +
+                        //    "or try closing the other one.";
+                        m_SnackBarText.text = "Другое приложение использует камеру. Кликните на текущее приложение или попытайтесь закрыть иное.";
                         break;
                     default:
-                        m_SnackBarText.text = "Motion tracking is lost.";
+                        // m_SnackBarText.text = "Motion tracking is lost.";
+                        m_SnackBarText.text = "Отслеживание движения прервано.";
                         break;
                 }
 
@@ -286,12 +291,14 @@ namespace GoogleARCore.Examples.Common
 
                 if (m_NotDetectedPlaneElapsed > OfferDetailedInstructionsDelay)
                 {
-                    m_SnackBarText.text = "Need Help?";
+                    //m_SnackBarText.text = "Need Help?";
+                    m_SnackBarText.text = "Нужна помощь?";
                     m_OpenButton.SetActive(true);
                 }
                 else
                 {
-                    m_SnackBarText.text = "Point your camera to where you want to place an object.";
+                    //m_SnackBarText.text = "Point your camera to where you want to place an object.";
+                    m_SnackBarText.text = "Наведите вашу камеру на поверхность, где хотите расположить объект";
                     m_OpenButton.SetActive(false);
                 }
             }

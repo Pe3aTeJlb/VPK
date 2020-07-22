@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using System.Collections;
 
 public class SteeringWheel : MonoBehaviour
 {
@@ -33,6 +32,7 @@ public class SteeringWheel : MonoBehaviour
 
     void Start()
     {
+        UI_Element = GameObject.FindGameObjectWithTag("Steering-wheel").GetComponent<Image>();
         rectT = UI_Element.rectTransform;
         InitEventsSystem();
     }
@@ -58,8 +58,7 @@ public class SteeringWheel : MonoBehaviour
 
     void InitEventsSystem()
     {
-        // Warning: Be ready to see some extremely boring code here :-/
-        // You are warned!
+
         EventTrigger events = UI_Element.gameObject.GetComponent<EventTrigger>();
 
         if (events == null)

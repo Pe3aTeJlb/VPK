@@ -16,7 +16,9 @@ public class SceneController : MonoBehaviour
 
     public DepthMenu DepthMenu;
     private int currModelsCount = 0;
-    private int totelModelsCount = 1;
+    private int totelModelsCount = 1; // set max amount of models in the scene
+
+    public GameObject carControl;
 
     // Start is called before the first frame update
     void Start()
@@ -114,20 +116,28 @@ public class SceneController : MonoBehaviour
                     // Create an anchor to allow ARCore to track the hitpoint as understanding of
                     // the physical world evolves.
                     var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
                     // Make game object a child of the anchor.
                     Car.transform.parent = anchor.transform;
                     Car.GetComponent<SimpleCarController>().enabled = false;
 
+                    
                     currModelsCount++;
                 }
             }
         }
     }
 
+    //Prepare game mode 
     public void Game() {
+        
 
         if (currModelsCount == 1)
         {
+            Screen.orientation = ScreenOrientation.Landscape;
+
+            carControl.SetActive(true);
+
             var gO = Instantiate(terrain, Car.transform.position, Quaternion.identity);
             gO.transform.parent = Car.transform.parent;
 
@@ -143,13 +153,14 @@ public class SceneController : MonoBehaviour
         // appear.
         if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
         {
-            ShowAndroidToastMessage("Camera permission is needed to run this application.");
+            //ShowAndroidToastMessage("Camera permission is needed to run this application.");
+            ShowAndroidToastMessage("Необходимо разрешение доступ к камере");
             Invoke("Quit", 0.5f);
         }
         else if (Session.Status == SessionStatus.FatalError)
         {
-            ShowAndroidToastMessage(
-                "ARCore encountered a problem connecting.  Please start the app again.");
+            //ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
+            ShowAndroidToastMessage("ARCore столкнулся с проблемой подключения. Пожалуйста, перезапустите приложение.");
             Invoke("Quit", 0.5f);
         }
     }

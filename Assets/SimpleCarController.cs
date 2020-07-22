@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 
 [System.Serializable]
 public class AxleInfo
@@ -194,6 +195,7 @@ public class SimpleCarController : MonoBehaviour
 
 	
 	public float KMh;
+
 	public int currentGear;
 	[HideInInspector]
 	public bool disableVehicle = false;
@@ -202,12 +204,16 @@ public class SimpleCarController : MonoBehaviour
 	[HideInInspector]
 	public bool isInsideTheCar;
 
+	public int gCount = 0;
+	bool allGrounded;
 
 	private void Start()
     {
         up = GameObject.FindGameObjectWithTag("Up").GetComponent<UIButtonInfo>();
         down = GameObject.FindGameObjectWithTag("Down").GetComponent<UIButtonInfo>();
         brake = GameObject.FindGameObjectWithTag("Brake").GetComponent<UIButtonInfo>();
+		stWheelController = GetComponent<SteeringWheel>();
+
 		stWheelController.maximumSteeringAngle = gearRatio * maxSteeringAngle;
 
 		forceEngineBrake = 0.75f * _vehicleSettings.vehicleMass;
@@ -365,16 +371,17 @@ public class SimpleCarController : MonoBehaviour
 
 		DiscoverAverageRpm();
 		//TurnOnEngine();
-		//Sounds();
+		Sounds();
 		UpdateWheelMeshes();
 		AutomaticGears();
-
 
 	}
 
     public void FixedUpdate()
     {
-        
+		gCount = 0;
+		allGrounded = false;
+
         foreach (AxleInfo axleInfo in axleInfos)
         {
 			ApplyTorque(axleInfo);
@@ -388,7 +395,12 @@ public class SimpleCarController : MonoBehaviour
 
 			SetWheelForces(axleInfo.rightWheel.wheelCollider);
 			SetWheelForces(axleInfo.leftWheel.wheelCollider);
+
+			if (axleInfo.rightWheel.wheelCollider.isGrounded) gCount++;
+			if (axleInfo.leftWheel.wheelCollider.isGrounded) gCount++;
 		}
+
+		if (gCount == axleInfos.Count * 2) allGrounded = true;
 
 		//extra gravity
 		if (_vehicleSettings._aerodynamics.extraGravity)
@@ -413,9 +425,11 @@ public class SimpleCarController : MonoBehaviour
 		//forcaparaBaixo2
 		ms_Rigidbody.AddForce(-transform.up * downForceUpdateRef);
 
+		
 		//brakes ABS
-		if (wheelFDIsGrounded && wheelFEIsGrounded && wheelTDIsGrounded && wheelTEIsGrounded)
+		if (allGrounded)
 		{
+
 			absSpeedFactor = Mathf.Clamp(KMh, 70, 150);
 			if (currentGear > 0 && mediumRPM > 0)
 			{
@@ -431,9 +445,10 @@ public class SimpleCarController : MonoBehaviour
 			}
 			if (isBraking && Mathf.Abs(KMh) > 1.2f)
 			{
-				ms_Rigidbody.AddForce(-transform.forward * absSpeedFactor * ms_Rigidbody.mass * 0.125f * absBrakeInput);
+				ms_Rigidbody.AddForce(-transform.forward * absSpeedFactor * ms_Rigidbody.mass * 0.125f  * absBrakeInput);
 			}
 		}
+		
 
 	}
 
@@ -461,10 +476,12 @@ public class SimpleCarController : MonoBehaviour
 		}
 
 		mediumRPM = sumRPM / groundedWheels;
+		
 		if (Mathf.Abs(mediumRPM) < 0.01f)
 		{
 			mediumRPM = 0.0f;
 		}
+
 	}
 
 	#region UpdateTorque
@@ -699,7 +716,7 @@ public class SimpleCarController : MonoBehaviour
 		brakeVerticalInput = 0.0f;
 
 		brakeVerticalInput = verticalInput;
-		
+
 		//Freio de pé
 		if (currentGear > 0)
 		{
@@ -744,8 +761,9 @@ public class SimpleCarController : MonoBehaviour
 			handBrake_Input = 2;
 		}
 		handBrake_Input = handBrake_Input * 1000;
+		
 		//FREIO TOTAL
-		totalFootBrake = currentBrakeValue * 0.5f * _vehicleSettings.vehicleMass;
+		totalFootBrake = currentBrakeValue * 0.5f * _vehicleSettings.vehicleMass*100;
 		totalHandBrake = handBrake_Input * 0.5f * _vehicleSettings.vehicleMass;
 
 			if (Mathf.Abs(mediumRPM) < 15 && Mathf.Abs(brakeVerticalInput) < 0.05f && !handBrakeTrue && (totalFootBrake + totalHandBrake) < 100)
@@ -1083,6 +1101,7 @@ public class SimpleCarController : MonoBehaviour
 	}
 	#endregion
 
+	#region SoundsManager
 	public AudioSource GenerateAudioSource(string name, float minDistance, float volume, AudioClip audioClip, bool loop, bool playNow, bool playAwake)
 	{
 		GameObject audioSource = new GameObject(name);
@@ -1102,6 +1121,73 @@ public class SimpleCarController : MonoBehaviour
 		}
 		return temp;
 	}
+
+	void Sounds()
+	{
+
+		//SOM DO MOTOR
+		if (changinGearsAuto)
+		{
+			engineSoundFactor = Mathf.Lerp(engineSoundFactor, 0.75f, Time.deltaTime * 0.6f);
+		}
+		else
+		{
+			engineSoundFactor = 1;
+		}
+		if (currentGear == -1 || currentGear == 0)
+		{
+			velxCurrentRPM = (Mathf.Clamp(KMh, (_vehicleTorque.minVelocityGears[0] * _vehicleTorque.speedOfGear), (_vehicleTorque.maxVelocityGears[0] * _vehicleTorque.speedOfGear)));
+			pitchAUD = Mathf.Clamp(((velxCurrentRPM / (_vehicleTorque.maxVelocityGears[0] * _vehicleTorque.speedOfGear)) * _sounds.speedOfEngineSound * engineSoundFactor), 0.85f, _sounds.speedOfEngineSound);
+		}
+		else
+		{
+			velxCurrentRPM = (Mathf.Clamp(KMh, (_vehicleTorque.minVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear), (_vehicleTorque.maxVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear)));
+			nextPitchAUD = ((velxCurrentRPM / (_vehicleTorque.maxVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear)) * _sounds.speedOfEngineSound * engineSoundFactor);
+			if (KMh < (_vehicleTorque.minVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear))
+			{
+				nextPitchAUD = 0.85f;
+				speedLerpSound = 0.5f;
+			}
+			else
+			{
+				if (speedLerpSound < 4.9f)
+				{
+					speedLerpSound = Mathf.Lerp(speedLerpSound, 5.0f, Time.deltaTime);
+				}
+			}
+			pitchAUD = Mathf.Clamp(nextPitchAUD, 0.85f, _sounds.speedOfEngineSound);
+		}
+		if (_sounds.engineSound)
+		{
+			if (theEngineIsRunning)
+			{
+				engineSoundAUD.volume = Mathf.Lerp(engineSoundAUD.volume, Mathf.Clamp(Mathf.Abs(engineInput), 0.35f, 0.85f), Time.deltaTime * 5.0f);
+				if (handBrakeTrue || currentGear == 0)
+				{
+					engineSoundAUD.pitch = Mathf.Lerp(engineSoundAUD.pitch, 0.85f + Mathf.Abs(verticalInput) * (_sounds.speedOfEngineSound * 0.7f - 0.85f), Time.deltaTime * 5.0f);
+				}
+				else
+				{
+					engineSoundAUD.pitch = Mathf.Lerp(engineSoundAUD.pitch, pitchAUD, Time.deltaTime * speedLerpSound);
+				}
+			}
+			else
+			{
+				if (enableEngineSound)
+				{
+					engineSoundAUD.volume = 1;
+					engineSoundAUD.pitch = Mathf.Lerp(engineSoundAUD.pitch, 0.7f, Time.deltaTime);
+				}
+				else
+				{
+					engineSoundAUD.volume = Mathf.Lerp(engineSoundAUD.volume, 0f, Time.deltaTime);
+					engineSoundAUD.pitch = Mathf.Lerp(engineSoundAUD.pitch, 0f, Time.deltaTime);
+				}
+			}
+		}
+
+	}
+	#endregion
 
 	public static float ClampAngle(float angle, float min, float max)
 	{
