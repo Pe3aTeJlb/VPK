@@ -8,6 +8,8 @@ TagManager:
   - Down
   - Steering-wheel
   - Brake
+  - ContentHolder
+  - SceneController
   layers:
   - Default
   - TransparentFX

@@ -128,6 +128,8 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         private List<DetectedPlane> m_DetectedPlanes = new List<DetectedPlane>();
 
+        public SceneController sceneController;
+
         /// <summary>
         /// Unity's Start() method.
         /// </summary>
@@ -310,6 +312,9 @@ namespace GoogleARCore.Examples.Common
                 m_FeaturePoints.SetActive(false);
                 m_SnackBar.SetActive(false);
                 m_OpenButton.SetActive(false);
+                if (m_DetectedPlaneElapsed > k_HideGuideDelay) sceneController.EnableContentPanel();
+               
+
 
                 if (m_HandAnimation.enabled)
                 {

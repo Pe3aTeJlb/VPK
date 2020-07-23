@@ -3,28 +3,36 @@ using GoogleARCore;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GoogleARCore.Examples.Common;
+using System;
 
 public class SceneController : MonoBehaviour
 {
     public Camera firstPersonCamera;
-    private Anchor anchor;
-    private DetectedPlane detectedPlane;
 
-    public GameObject Strela;
-    public GameObject Car;
+    private Anchor lastAnchor;
+    private DetectedPlane detectedPlane;
+    private TrackableHit lastHit;
+
+    private GameObject Model;
+    private GameObject Car;
     public GameObject terrain;
+    private bool alreadyInstantiated = false;
+    private bool tracking;
 
     public DepthMenu DepthMenu;
     private int currModelsCount = 0;
-    private int totelModelsCount = 1; // set max amount of models in the scene
+    private readonly int maxModelsCount = 1; // set max amount of models in the scene
 
     public GameObject carControl;
+    public GameObject contentPanel;
 
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 60;
         QuitOnConnectionErrors();
+        Car = null;
+        contentPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,13 +55,40 @@ public class SceneController : MonoBehaviour
 
         ProcessTouches();
     }
+    public void SetModelByIndex(GameObject newModel)
+    {
+        Model = newModel;
+    }
+
+    public void InstantiateModel()
+    {
+
+        if (!alreadyInstantiated && currModelsCount <= maxModelsCount)
+        {
+            alreadyInstantiated = true;
+            Car = Instantiate(Model, Vector3.zero, Quaternion.identity);
+            Car.GetComponent<Rigidbody>().useGravity = false;
+            Car.transform.Rotate(0, 180, 0, Space.Self);
+
+            Car.GetComponent<SimpleCarController>().enabled = false;
+            currModelsCount++;
+
+            Car.SetActive(false);
+        }
+    }
 
     void ProcessTouches()
     {
         Touch touch;
-        if (Input.touchCount != 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+
+        //if (Input.touchCount != 1 || (touch = Input.GetTouch(0)).phase != TouchPhase.Began)
+        if (Input.touchCount != 1)
         {
             return;
+        }
+        else 
+        {
+            touch = Input.GetTouch(0);
         }
 
         // Should not handle input if the player is pointing on UI.
@@ -68,6 +103,8 @@ public class SceneController : MonoBehaviour
 
         if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
         {
+            Debug.Log(hit.Pose.position);
+            tracking = true;
             // Use hit pose and camera pose to check if hittest is from the
             // back of the plane, if it is, no need to create the anchor.
             if ((hit.Trackable is DetectedPlane) &&
@@ -78,55 +115,50 @@ public class SceneController : MonoBehaviour
             }
             else
             {
-                
+                lastHit = hit;
+
                 if (DepthMenu != null)
                 {
                     // Show depth card window if necessary.
                     DepthMenu.ConfigureDepthBeforePlacingFirstAsset();
                 }
                 
-
-                // Choose the prefab based on the Trackable that got hit.
-                GameObject prefab = null; ;
-
                 if (hit.Trackable is DetectedPlane)
                 {
 
                     DetectedPlane detectedPlane = hit.Trackable as DetectedPlane;
-                    if (detectedPlane.PlaneType == DetectedPlaneType.Vertical){}
-                    else
+
+                    if (detectedPlane.PlaneType == DetectedPlaneType.HorizontalUpwardFacing &&
+                        currModelsCount <= maxModelsCount &&
+                        tracking && Car.gameObject != null
+                        ) 
                     {
-                        prefab = Strela;
+                            Car.transform.position = hit.Pose.position;
+                            Car.SetActive(true);
                     }
 
                 }
-                else {}
 
-                if (currModelsCount < totelModelsCount)
-                {
-                    
-                    // Instantiate prefab at the hit pose.
-                    Car = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-
-                    Car.GetComponent<Rigidbody>().useGravity = false;
-                    // Compensate for the hitPose rotation facing away from the raycast (i.e.
-                    // camera).
-                    Car.transform.Rotate(0, 180, 0, Space.Self);
-
-                    // Create an anchor to allow ARCore to track the hitpoint as understanding of
-                    // the physical world evolves.
-                    var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-                    // Make game object a child of the anchor.
-                    Car.transform.parent = anchor.transform;
-                    Car.GetComponent<SimpleCarController>().enabled = false;
-
-                    
-                    currModelsCount++;
-                }
             }
         }
     }
+
+    //called from ItemDragHandler OnEndDrag cause processtouches runs from update which will make problems
+    public void SetAnchor()
+    {
+        lastAnchor = lastHit.Trackable.CreateAnchor(lastHit.Pose);
+        Car.transform.parent = lastAnchor.transform;
+        Car.SetActive(true);
+        alreadyInstantiated = false;
+        tracking = false;
+        Car = new GameObject();
+    }
+
+    public void EnableContentPanel() 
+    {
+        contentPanel.SetActive(true);
+    }
+
 
     //Prepare game mode 
     public void Game() {
