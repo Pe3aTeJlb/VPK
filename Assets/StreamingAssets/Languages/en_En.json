@@ -1,0 +1,29 @@
+{
+	"items": [
+		{
+			"key": "okButton",
+			"value": "OK"
+		},
+		{
+			"key": "cancleButton",
+			"value": "Cancle"
+		},
+		{
+			"key": "Settings",
+			"value": "Settings"
+		},
+		{
+			"key": "depthAPIButton",
+			"value": "enable depth API"
+		},
+		{
+			"key": "depthAPINotSupported",
+			"value": "Your device doesn't support depth."
+		},
+		{
+			"key": "depthAPISupported",
+			"value": "Your device supports depth."
+		}
+
+	]
+}

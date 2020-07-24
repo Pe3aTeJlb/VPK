@@ -10,6 +10,7 @@ TagManager:
   - Brake
   - ContentHolder
   - SceneController
+  - LocalizationManager
   layers:
   - Default
   - TransparentFX
@@ -20,8 +21,8 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Tires
-  - Car
+  - 
+  - 
   - 
   - 
   - 

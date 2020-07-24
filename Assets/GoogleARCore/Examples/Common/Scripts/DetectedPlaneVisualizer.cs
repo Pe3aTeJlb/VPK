@@ -42,7 +42,9 @@ namespace GoogleARCore.Examples.Common
 
         private Mesh m_Mesh;
 
-        private MeshRenderer m_MeshRenderer;
+        public MeshRenderer m_MeshRenderer;
+
+        public bool hide = false;
 
         /// <summary>
         /// The Unity Awake() method.
@@ -72,8 +74,6 @@ namespace GoogleARCore.Examples.Common
                  m_MeshRenderer.enabled = false;
                  return;
             }
-
-            m_MeshRenderer.enabled = true;
 
             _UpdateMeshIfNeeded();
         }

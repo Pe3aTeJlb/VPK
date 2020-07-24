@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\BtnSwitchLang.cs" />
     <Compile Include="Assets\CarController.cs" />
     <Compile Include="Assets\ContentController.cs" />
     <Compile Include="Assets\GoogleARCore\Examples\AugmentedFaces\Scripts\ARCoreAugmentedFaceMeshFilter.cs" />
@@ -257,10 +258,14 @@
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPSession.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPTrackingState.cs" />
     <Compile Include="Assets\ItemDragHandler.cs" />
+    <Compile Include="Assets\LocalizationData.cs" />
+    <Compile Include="Assets\LocalizationManager.cs" />
+    <Compile Include="Assets\LocalizedText.cs" />
     <Compile Include="Assets\SceneController.cs" />
     <Compile Include="Assets\SimpleCarController.cs" />
     <Compile Include="Assets\Slider.cs" />
     <Compile Include="Assets\SteeringWheel.cs" />
+    <Compile Include="Assets\Test.cs" />
     <Compile Include="Assets\UIButtonInfo.cs" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\PlaneGrid.shader" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\MobileDiffuseWithLightEstimation.shader" />

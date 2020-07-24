@@ -35,18 +35,15 @@ public class Slider : MonoBehaviour
                 case TouchPhase.Moved:
                     
                     //swipe horizontal?
-                    if (RectTransformUtility.RectangleContainsScreenPoint(contentPanel, Input.mousePosition, cam))
+                    if (RectTransformUtility.RectangleContainsScreenPoint(contentPanel, Input.mousePosition))
                     {
-
                         if (touch.position.y - touchStartPos.y > 20)
                         {
-                            Debug.Log("(((((");
                             targetPos = new Vector2(0, 0);//show menu
                         }
                     
                         if (touch.position.y - touchStartPos.y < -20)
-                        {
-                            Debug.Log("&");
+                        { 
                             targetPos = new Vector2(0, slideWidth);//hide menu
                         }
                     }

@@ -19,19 +19,17 @@ public class ContentController : MonoBehaviour
 
     public GameObject iconPrefab; // This is our prefab object that will be exposed in the inspector
 
-    public SceneController sceneController;
-
     private int numberToCreate; // number of objects to create. Exposed in inspector
     private GridLayoutGroup GLP;
 
     // Start is called before the first frame update
     void Start()
     {
-        GLP = GetComponent<GridLayoutGroup>();
         numberToCreate = models.Count;
+        GLP = GetComponent<GridLayoutGroup>();
         GLP.constraintCount = numberToCreate;
-        PopulateGrid();
 
+        PopulateGrid();
     }
 
     void PopulateGrid()
@@ -42,7 +40,7 @@ public class ContentController : MonoBehaviour
         {
             int j = i; // замыкание
             // Create new instances of our prefab until we've created as many as specified
-            newObj = (GameObject)Instantiate(iconPrefab, transform);
+            newObj = Instantiate(iconPrefab, transform);
             newObj.GetComponent<Image>().sprite = models[i].icon;
             newObj.GetComponent<ItemDragHandler>().prefab = models[j].modelPrefab;
          

@@ -1,0 +1,29 @@
+{
+
+	"items": [
+		{
+			"key": "okButton",
+			"value": "OK"
+		},
+		{
+			"key": "cancleButton",
+			"value": "Назад"
+		},
+		{
+			"key": "Settings",
+			"value": "Настройки"
+		},
+		{
+			"key": "depthAPIButton",
+			"value": "Включить камеру глубины"
+		},
+		{
+			"key": "depthAPINotSupported",
+			"value": "Ваше устройство не поддерживает камеру глубины."
+		},
+		{
+			"key": "depthAPISupported",
+			"value": "Ваше устройство поддерживает камеру глубины."
+		}
+	]
+}

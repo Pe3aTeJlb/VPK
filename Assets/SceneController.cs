@@ -8,6 +8,7 @@ using System;
 public class SceneController : MonoBehaviour
 {
     public Camera firstPersonCamera;
+    public GameObject cam;
 
     private Anchor lastAnchor;
     private DetectedPlane detectedPlane;
@@ -25,6 +26,11 @@ public class SceneController : MonoBehaviour
 
     public GameObject carControl;
     public GameObject contentPanel;
+    public GameObject gameButton;
+
+    public DetectedPlaneGenerator planeGenerator;
+
+    public Text fps;
 
     // Start is called before the first frame update
     void Start()
@@ -32,12 +38,15 @@ public class SceneController : MonoBehaviour
         Application.targetFrameRate = 60;
         QuitOnConnectionErrors();
         Car = null;
+
         contentPanel.SetActive(false);
+        gameButton.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        fps.text = "" + 1 / Time.deltaTime;
 
         if (DepthMenu != null && !DepthMenu.CanPlaceAsset())
         {
@@ -54,6 +63,7 @@ public class SceneController : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         ProcessTouches();
+
     }
     public void SetModelByIndex(GameObject newModel)
     {
@@ -63,17 +73,29 @@ public class SceneController : MonoBehaviour
     public void InstantiateModel()
     {
 
-        if (!alreadyInstantiated && currModelsCount <= maxModelsCount)
+        if (!alreadyInstantiated && currModelsCount < maxModelsCount)
         {
+            tracking = true;
             alreadyInstantiated = true;
             Car = Instantiate(Model, Vector3.zero, Quaternion.identity);
+            
             Car.GetComponent<Rigidbody>().useGravity = false;
-            Car.transform.Rotate(0, 180, 0, Space.Self);
+
+            //Face model to the camera
+            Vector3 targetDirection = cam.transform.position - Car.transform.position;
+            float step = 10000 * Time.deltaTime;
+            Vector3 newDirection = Vector3.RotateTowards(Car.transform.forward, targetDirection, step, 0.0F);
+            Car.transform.rotation = Quaternion.LookRotation(newDirection);
+            Car.transform.rotation = Quaternion.Euler(Car.transform.rotation.x, 179, Car.transform.rotation.z);
 
             Car.GetComponent<SimpleCarController>().enabled = false;
-            currModelsCount++;
-
+            Car.GetComponent<SteeringWheel>().enabled = false;
+            
             Car.SetActive(false);
+
+            planeGenerator.enabled = true;
+            planeGenerator.hideNewPlanes = false;
+            planeGenerator.ShowAllPlanes();
         }
     }
 
@@ -103,8 +125,6 @@ public class SceneController : MonoBehaviour
 
         if (Frame.Raycast(touch.position.x, touch.position.y, raycastFilter, out hit))
         {
-            Debug.Log(hit.Pose.position);
-            tracking = true;
             // Use hit pose and camera pose to check if hittest is from the
             // back of the plane, if it is, no need to create the anchor.
             if ((hit.Trackable is DetectedPlane) &&
@@ -122,7 +142,7 @@ public class SceneController : MonoBehaviour
                     // Show depth card window if necessary.
                     DepthMenu.ConfigureDepthBeforePlacingFirstAsset();
                 }
-                
+
                 if (hit.Trackable is DetectedPlane)
                 {
 
@@ -131,34 +151,50 @@ public class SceneController : MonoBehaviour
                     if (detectedPlane.PlaneType == DetectedPlaneType.HorizontalUpwardFacing &&
                         currModelsCount <= maxModelsCount &&
                         tracking && Car.gameObject != null
-                        ) 
+                        )
                     {
-                            Car.transform.position = hit.Pose.position;
-                            Car.SetActive(true);
+                        Car.transform.position = hit.Pose.position;
+                        Car.SetActive(true);
                     }
 
                 }
-
             }
+        }
+        else {
+            HideModel();
         }
     }
 
     //called from ItemDragHandler OnEndDrag cause processtouches runs from update which will make problems
     public void SetAnchor()
     {
-        lastAnchor = lastHit.Trackable.CreateAnchor(lastHit.Pose);
-        Car.transform.parent = lastAnchor.transform;
-        Car.SetActive(true);
-        alreadyInstantiated = false;
-        tracking = false;
-        Car = new GameObject();
+        if (tracking)
+        {
+            tracking = false;
+
+            lastAnchor = lastHit.Trackable.CreateAnchor(lastHit.Pose);
+
+            Car.transform.parent = lastAnchor.transform;
+            Car.SetActive(true);
+
+            alreadyInstantiated = false;
+            
+            Car = new GameObject();
+
+            gameButton.SetActive(true);
+
+            currModelsCount += 1;
+
+            planeGenerator.hideNewPlanes = true;
+            planeGenerator.HideAllPlanes();
+            planeGenerator.enabled = false;
+        }
     }
 
     public void EnableContentPanel() 
     {
         contentPanel.SetActive(true);
     }
-
 
     //Prepare game mode 
     public void Game() {
@@ -175,7 +211,21 @@ public class SceneController : MonoBehaviour
 
             Car.GetComponent<Rigidbody>().useGravity = true;
             Car.GetComponent<SimpleCarController>().enabled = true;
+            Car.GetComponent<SteeringWheel>().enabled = true;
             Car.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        }
+    }
+
+    public void HideModel()
+    {
+        if (Car != null) Car.SetActive(false);
+    }
+
+    public void DeleteModel() {
+        if (Car != null) {
+            Destroy(Car);
+            Debug.Log("Deleted");
+            alreadyInstantiated = false;
         }
     }
 

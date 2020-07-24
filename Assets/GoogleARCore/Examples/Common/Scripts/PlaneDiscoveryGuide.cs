@@ -128,13 +128,18 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         private List<DetectedPlane> m_DetectedPlanes = new List<DetectedPlane>();
 
-        public SceneController sceneController;
+        private SceneController sceneController;
+
+        private LocalizationManager localizationManager;
 
         /// <summary>
         /// Unity's Start() method.
         /// </summary>
         public void Start()
         {
+            sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
+            localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
+
             m_OpenButton.GetComponent<Button>().onClick.AddListener(_OnOpenButtonClicked);
             m_GotItButton.onClick.AddListener(_OnGotItButtonClicked);
 

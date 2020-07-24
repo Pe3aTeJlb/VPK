@@ -112,6 +112,8 @@ namespace GoogleARCore.Examples.Common
 
         private DepthState m_DepthState = DepthState.DepthNotAvailable;
 
+        private LocalizationManager localizationManager;
+
         /// <summary>
         /// Depth state of this sample.
         /// </summary>
@@ -143,6 +145,8 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         public void Start()
         {
+            localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
+
             m_MenuButton.onClick.AddListener(_OnMenuButtonClicked);
             m_ApplyButton.onClick.AddListener(_OnApplyButtonClicked);
             m_CancelButton.onClick.AddListener(_OnCancelButtonClicked);
@@ -214,18 +218,17 @@ namespace GoogleARCore.Examples.Common
             {
                 // Session might not be initialized when GameOject is inializing.
                 // Hence, it would be better NOT to call `IsDepthModeSupported` in start().
+                
                 if (Session.IsDepthModeSupported(DepthMode.Automatic))
                 {
                     m_DepthState = DepthState.DepthDisabled;
-                    //m_MenuText.text = "Your device supports depth.";
-                    m_MenuText.text = "Ваше устройство поддерживает камеру глубины";
+                    m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
                 }
                 else
                 {
                     _ConfigureDepth(false);
                     m_DepthState = DepthState.DepthNotAvailable;
-                    //m_MenuText.text = "Your device doesn't support depth.";
-                    m_MenuText.text = "Ваше устройство не поддерживает камеру глубины";
+                    m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
                 }
 
                 _ResetToggle();

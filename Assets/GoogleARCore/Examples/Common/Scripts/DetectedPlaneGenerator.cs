@@ -39,7 +39,9 @@ namespace GoogleARCore.Examples.Common
         /// used across the application to avoid per-frame allocations.
         /// </summary>
         private List<DetectedPlane> m_NewPlanes = new List<DetectedPlane>();
+        private List<DetectedPlaneVisualizer> allPlaneObjects = new List<DetectedPlaneVisualizer>();
 
+        public bool hideNewPlanes;
         /// <summary>
         /// The Unity Update method.
         /// </summary>
@@ -61,8 +63,30 @@ namespace GoogleARCore.Examples.Common
                 // prefab is updated in Unity World coordinates.
                 GameObject planeObject =
                     Instantiate(DetectedPlanePrefab, Vector3.zero, Quaternion.identity, transform);
-                planeObject.GetComponent<DetectedPlaneVisualizer>().Initialize(m_NewPlanes[i]);
+
+                DetectedPlaneVisualizer planeObjectVisualizer = planeObject.GetComponent<DetectedPlaneVisualizer>();
+                planeObjectVisualizer.Initialize(m_NewPlanes[i]);
+                
+                allPlaneObjects.Add(planeObjectVisualizer);
+
+                if (hideNewPlanes) { planeObjectVisualizer.m_MeshRenderer.enabled = false; }
+                else { planeObjectVisualizer.m_MeshRenderer.enabled = true; }
             }
         }
+
+        public void HideAllPlanes() {
+            for (int i = 0; i < allPlaneObjects.Count; i++)
+            {
+                allPlaneObjects[i].m_MeshRenderer.enabled = false;
+            }
+        }
+
+        public void ShowAllPlanes()
+        {
+            for (int i = 0; i < allPlaneObjects.Count; i++) {
+                allPlaneObjects[i].m_MeshRenderer.enabled = true;
+            }
+        }
+
     }
 }
