@@ -3,7 +3,6 @@ using GoogleARCore;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GoogleARCore.Examples.Common;
-using System;
 
 public class SceneController : MonoBehaviour
 {
@@ -11,7 +10,7 @@ public class SceneController : MonoBehaviour
     public GameObject cam;
 
     private Anchor lastAnchor;
-    private DetectedPlane detectedPlane;
+
     private TrackableHit lastHit;
 
     private GameObject Model;

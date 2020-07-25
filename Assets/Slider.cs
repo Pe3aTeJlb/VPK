@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.EventSystems;
+﻿using UnityEngine;
 
 public class Slider : MonoBehaviour
 {
@@ -12,7 +9,6 @@ public class Slider : MonoBehaviour
     private Vector2 targetPos;
     public int slideWidth;
     public RectTransform contentPanel, handle;
-    private bool b = false;
 
     void Start()
     {

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class LocalizedText : MonoBehaviour
 {
     [SerializeField]
-    private string key;
+    public string key;
 
     private LocalizationManager localizationManager;
     private Text text;

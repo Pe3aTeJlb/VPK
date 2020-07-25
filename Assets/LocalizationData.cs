@@ -1,13 +1,10 @@
-﻿using System;
-using UnityEngine;
-
-[Serializable]
+﻿[System.Serializable]
 public class LocalizationData
 {
     public LocalizationItem[] items;
 }
 
-[Serializable]
+[System.Serializable]
 public class LocalizationItem 
 {
     public string key;

@@ -2,9 +2,13 @@
 using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class LocalizationManager : MonoBehaviour
 {
+    public LocalizationManager instance;
+
     private string currentLanguage;
     private Dictionary<string, string> localizedText;
     public static bool isReady = false;
@@ -14,6 +18,18 @@ public class LocalizationManager : MonoBehaviour
 
     void Awake()
     {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        DontDestroyOnLoad(gameObject);
+
         if (!PlayerPrefs.HasKey("Language"))
         {
             if (Application.systemLanguage == SystemLanguage.Russian || 
@@ -27,38 +43,52 @@ public class LocalizationManager : MonoBehaviour
                 PlayerPrefs.SetString("Language", "en_US");
             }
         }
+
         currentLanguage = PlayerPrefs.GetString("Language");
 
-        LoadLocalizedText(currentLanguage);
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            StartCoroutine(LoadLocalizedTextOnAndroid(currentLanguage));
+        }
+        else
+        {
+            LoadLocalizedText(currentLanguage);
+        }
+
+    }
+
+    public void ChangeLanguage(string newLang) {
+
+        if (!newLang.Equals(currentLanguage))
+        {
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                localizedText.Clear();
+                StartCoroutine(LoadLocalizedTextOnAndroid(newLang));
+            }
+            else
+            {
+                LoadLocalizedText(newLang);
+            }
+        }
+
     }
 
     public void LoadLocalizedText(string langName)
     {
-        string path = Application.streamingAssetsPath + "/Languages/" + langName + ".json";
+        string path = Application.streamingAssetsPath +"/"+ langName + ".json";
 
         string dataAsJson;
 
-        //Не работает для огрызка
-        if (Application.platform == RuntimePlatform.Android)
-        {
-            WWW reader = new WWW(Application.streamingAssetsPath+ "/Languages/" + langName + ".json");
-            while (!reader.isDone) { }
-            dataAsJson = reader.text;
-            //path =  Application.persistentDataPath + "/Languages/" + langName + ".json";
-            //dataAsJson = File.ReadAllText(path);
-            Debug.Log(path);
-        }
-        else
-        {
-            dataAsJson = File.ReadAllText(path);
-        }
-
+        dataAsJson = File.ReadAllText(path);
         LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
 
         localizedText = new Dictionary<string, string>();
+
         for (int i = 0; i < loadedData.items.Length; i++)
         {
             localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
+            Debug.LogWarning("" +loadedData.items[i].key + "  " + loadedData.items[i].value);
         }
 
         PlayerPrefs.SetString("Language", langName);
@@ -68,11 +98,63 @@ public class LocalizationManager : MonoBehaviour
         OnLanguageChanged?.Invoke();
     }
 
+
+    IEnumerator LoadLocalizedTextOnAndroid(string langName)
+    {
+        string fileName = langName + ".json";
+        
+        localizedText = new Dictionary<string, string>();
+
+        string filePath;
+        filePath = Path.Combine(Application.streamingAssetsPath + "/", fileName);
+        
+        string dataAsJson;
+
+        if (filePath.Contains("://") || filePath.Contains(":///"))
+        {
+
+            Debug.Log("UNITY:" + Environment.NewLine + filePath);
+            UnityWebRequest www = UnityWebRequest.Get(filePath);
+            yield return www.SendWebRequest();
+            dataAsJson = www.downloadHandler.text;
+            
+        }
+        else
+        {
+            dataAsJson = File.ReadAllText(filePath);
+        }
+        LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
+
+        Debug.LogWarning(loadedData.items.Length);
+        int n = loadedData.items.Length;
+        int k = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            if (!localizedText.ContainsKey(loadedData.items[i].key))
+            {
+                localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
+            }
+            Debug.Log("KEYS:" + loadedData.items[i].key);
+            k++;
+        }
+
+        Debug.LogWarning("$$$$$$$$$$$$$$$$$$$$$ "+k);
+
+        PlayerPrefs.SetString("Language", langName);
+        currentLanguage = PlayerPrefs.GetString("Language");
+        isReady = true;
+
+        OnLanguageChanged?.Invoke();
+    }
+
+
     public string GetLocalizedValue(string key)
     {
         if (localizedText.ContainsKey(key))
         {
-            return localizedText[key];
+            string result = localizedText[key];
+            return result;
         }
         else
         {
@@ -92,6 +174,7 @@ public class LocalizationManager : MonoBehaviour
             currentLanguage = PlayerPrefs.GetString("Language");
         }
     }
+    
     public bool IsReady
     {
         get
@@ -99,4 +182,5 @@ public class LocalizationManager : MonoBehaviour
             return isReady;
         }
     }
+
 }

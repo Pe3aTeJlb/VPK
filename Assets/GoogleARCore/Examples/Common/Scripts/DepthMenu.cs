@@ -114,6 +114,8 @@ namespace GoogleARCore.Examples.Common
 
         private LocalizationManager localizationManager;
 
+        public LocalizedText veirdUnlocalizedText;
+
         /// <summary>
         /// Depth state of this sample.
         /// </summary>
@@ -222,13 +224,15 @@ namespace GoogleARCore.Examples.Common
                 if (Session.IsDepthModeSupported(DepthMode.Automatic))
                 {
                     m_DepthState = DepthState.DepthDisabled;
-                    m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
+                    veirdUnlocalizedText.key = "depthAPISupported";
+                    //m_MenuText.text = localizationManager.GetLocalizedValue("depthAPISupported");
                 }
                 else
                 {
                     _ConfigureDepth(false);
                     m_DepthState = DepthState.DepthNotAvailable;
-                    m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
+                    veirdUnlocalizedText.key = "depthAPINotSupported";
+                    //m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
                 }
 
                 _ResetToggle();

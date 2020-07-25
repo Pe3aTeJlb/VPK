@@ -8,8 +8,7 @@ public class BtnSwitchLang : MonoBehaviour
     public string lang;
     public void OnButtonClick()
     {
-        Debug.LogError(Application.persistentDataPath);
-        localizationManager.LoadLocalizedText(lang);
+        localizationManager.ChangeLanguage(lang);
     }
     
 }

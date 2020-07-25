@@ -1,0 +1,88 @@
+{
+	"items": [
+		{
+			"key": "okButton",
+			"value": "OK"
+		},
+		{
+			"key": "cancleButton",
+			"value": "Cancle"
+		},
+		{
+			"key": "Enable",
+			"value": "Enable"
+		},
+		{
+			"key": "Disable",
+			"value": "Disable"
+		},
+		{
+			"key": "Settings",
+			"value": "Settings"
+		},
+		{
+			"key": "Open",
+			"value": "Open"
+		},
+		{
+			"key": "depthAPIButton",
+			"value": "enable depth API"
+		},
+		{
+			"key": "depthAPINotSupported",
+			"value": "Your device doesn't support depth."
+		},
+		{
+			"key": "depthAPISupported",
+			"value": "Your device supports depth."
+		},
+		{
+			"key": "depthCardTitle",
+			"value": "Your device supports Depth API"
+		},
+		{
+			"key": "depthCardText",
+			"value": "When Depth is  enabled on supported devices, virtual objects adapt to the environment by blending in with the real world."
+		},
+		{
+			"key": "moreHelpTitle",
+			"value": "How to find a surface"
+		},
+		{
+			"key": "moreHelpText",
+			"value": "In order to start the experience, the app needs to detect a flat, horizontal surface. \n\nFinding a surface works best on well-lit, textured surfaces like wood, concrete, tiles, and carpets. \n\nAim down at the floor or a tabletop, and move your phone slowly in a circle. \n\nMake sure the lighting isn’t too dark or too bright."
+		},
+		{
+			"key": "GotIt",
+			"value": "Got It"
+		},
+		{
+			"key": "InsufficientLight",
+			"value": "Too dark. Try moving to a well-lit area."
+		},
+		{
+			"key": "InsufficientFeatures",
+			"value": "Aim device at a surface with more texture or color."
+		},
+		{
+			"key": "ExcessiveMotion",
+			"value": "Moving too fast. Slow down."
+		},
+		{
+			"key": "CameraUnavailable",
+			"value": "Another app is using the camera. Tap on this app or try closing the other one."
+		},
+		{
+			"key": "MotionTrackLost",
+			"value": "Motion tracking is lost."
+		},
+		{
+			"key": "NeedSomeHelp",
+			"value": "Need Help?"
+		},
+		{
+			"key": "PlaceObjTip",
+			"value": "Point your camera to where you want to place an object."
+		}
+	]
+}
