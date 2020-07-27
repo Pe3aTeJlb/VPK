@@ -44,19 +44,14 @@ public class SimpleCarController : MonoBehaviour
 	bool changinGearsAuto;
 	bool theEngineIsRunning;
 	bool enableEngineSound;
-	bool youCanCall;
 	bool brakingAuto;
 	bool colliding;
-
-	bool enableSkidMarksOnStart;
 
 	int groundedWheels;
 	float sumRPM;
 	float mediumRPM;
 	float angle1Ref;
 	float angle2Volant;
-	float volantStartRotation;
-	float minPitchAud;
 	float leftDifferential;
 	float rightDifferential;
 	float timeAutoGear;
@@ -105,34 +100,17 @@ public class SimpleCarController : MonoBehaviour
 	float velxCurrentRPM;
 	float nextPitchAUD;
 
-	float lastRightForwardPositionY;
-	float lastLeftForwardPositionY;
-	float lastRightRearPositionY;
-	float lastLeftRearPositionY;
-	float sensImpactFR;
-	float sensImpactFL;
-	float sensImpactRR;
-	float sensImpactRL;
 	float additionalCurrentGravity;
 	float currentBrakeValue;
 	float forceEngineBrake;
-
-	float sidewaysSlipMaxSkid;
-	float forwardSlipMaxSkid;
-	float sensibility75kmh;
-	float sensibilityLowSpeed;
-	float maxSlipTemp;
-	bool forwardTempSKid;
-	bool forwardHandBrakeSKid;
-	bool skiddingIsTrue;
 
 	float currentDownForceVehicle;
 
 	Rigidbody ms_Rigidbody;
 
 	AudioSource engineSoundAUD;
-	AudioSource beatsSoundAUD;
-	AudioSource beatsOnWheelSoundAUD;
+	//AudioSource beatsSoundAUD;
+	//AudioSource beatsOnWheelSoundAUD;
 	AudioSource skiddingSoundAUD;
 
 	WheelCollider[] wheelColliderList;
@@ -168,30 +146,15 @@ public class SimpleCarController : MonoBehaviour
 	float absBrakeInput;
 	float absSpeedFactor;
 
-	bool wheelFDIsGrounded;
-	bool wheelFEIsGrounded;
-	bool wheelTDIsGrounded;
-	bool wheelTEIsGrounded;
-
-	private readonly Dictionary<Mesh, int> currentIndexes = new Dictionary<Mesh, int>();
-	float tempAlphaSkidMarks;
-	WheelHit tempWHeelHit;
-	Vector3 skidTemp;
-	Vector3[] lastPoint;
-	List<Vector3> vertices;
-	List<Vector3> normals;
-	List<Color> colors;
-	List<Vector2> uv;
-	List<int> tris;
+    readonly bool wheelFDIsGrounded;
+	readonly bool wheelFEIsGrounded;
+	readonly bool wheelTDIsGrounded;
+	readonly bool wheelTEIsGrounded;
 
 	Vector3 vectorMeshPos1;
 	Vector3 vectorMeshPos2;
-	Vector3 vectorMeshPos3;
-	Vector3 vectorMeshPos4;
 	Quaternion quatMesh1;
 	Quaternion quatMesh2;
-	Quaternion quatMesh3;
-	Quaternion quatMesh4;
 
 	
 	public float KMh;
@@ -219,13 +182,6 @@ public class SimpleCarController : MonoBehaviour
 		forceEngineBrake = 0.75f * _vehicleSettings.vehicleMass;
 		vehicleScale = transform.lossyScale.y;
 
-		vertices = new List<Vector3>(1200);
-		normals = new List<Vector3>(1200);
-		colors = new List<Color>(1200);
-		uv = new List<Vector2>(1200);
-		tris = new List<int>(3600);
-		lastPoint = new Vector3[4];
-
 		wheelColliderList = new WheelCollider[(axleInfos.Count*2)];
 		for (int i = 0; i < wheelColliderList.Length-1; i+=2) {
 			wheelColliderList[i] = axleInfos[i / 2].leftWheel.wheelCollider;
@@ -234,7 +190,6 @@ public class SimpleCarController : MonoBehaviour
 
 		currentDownForceVehicle = _vehicleSettings.improveControl.downForce;
 
-		youCanCall = true;
 		handBrakeTrue = false;
 
 		theEngineIsRunning = _vehicleSettings.startOn;
@@ -276,7 +231,7 @@ public class SimpleCarController : MonoBehaviour
 		}
 		if (_sounds.wheelImpactSound)
 		{
-			beatsOnWheelSoundAUD = GenerateAudioSource("Sound of wheel beats", 10, 0.25f, _sounds.wheelImpactSound, false, false, false);
+			//beatsOnWheelSoundAUD = GenerateAudioSource("Sound of wheel beats", 10, 0.25f, _sounds.wheelImpactSound, false, false, false);
 		}
 		if (_sounds.skiddingSound.standardSound)
 		{
@@ -286,7 +241,7 @@ public class SimpleCarController : MonoBehaviour
 		{
 			if (_sounds.collisionSounds[0])
 			{
-				beatsSoundAUD = GenerateAudioSource("Sound of beats", 10, _sounds.volumeCollisionSounds, _sounds.collisionSounds[UnityEngine.Random.Range(0, _sounds.collisionSounds.Length)], false, false, false);
+				//beatsSoundAUD = GenerateAudioSource("Sound of beats", 10, _sounds.volumeCollisionSounds, _sounds.collisionSounds[UnityEngine.Random.Range(0, _sounds.collisionSounds.Length)], false, false, false);
 			}
 		}
 		skiddingSoundAUD.clip = _sounds.skiddingSound.standardSound;
@@ -980,7 +935,7 @@ public class SimpleCarController : MonoBehaviour
 					StartCoroutine("TimeAutoGears", currentGear - 1);
 				}
 			}
-			if (verticalInput > 0.1f && KMh > (_vehicleTorque.idealVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear + 7 * _vehicleTorque.speedOfGear))
+			if (verticalInput > 0.1f && KMh > (_vehicleTorque.idealVelocityGears[currentGear - 1] * _vehicleTorque.speedOfGear + 1 * _vehicleTorque.speedOfGear))
 			{
 				if (currentGear < _vehicleTorque.numberOfGears && currentGear != -1)
 				{
@@ -1076,15 +1031,11 @@ public class SimpleCarController : MonoBehaviour
 	}
 	IEnumerator StartEngineTime()
 	{
-		youCanCall = false;
 		yield return new WaitForSeconds(3);
-		youCanCall = true;
 	}
 	IEnumerator TurnOffEngineTime()
 	{
-		youCanCall = false;
 		yield return new WaitForSeconds(1);
-		youCanCall = true;
 	}
 	IEnumerator StartEngineCoroutine(bool startOn)
 	{

@@ -1,0 +1,5 @@
+1. ѕосле того как мы обнаружим поверхность, подсказки скрываютс€, по€вл€етс€ окно выбора модели. 
+јктиваци€ этого окна происходит в sceneController.EnableContentPanel, но вызов этого метода в PlaneDiscoveryGuide
+
+2. ѕосле расположени€ модели, сетка на найденных поверхност€х пропадает. ¬ызов происходит в SceneController , 
+дальше смотри DetectedPlaneGenerator  и DetectedPlaneVisualazer

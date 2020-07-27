@@ -84,11 +84,6 @@ namespace GoogleARCore.Examples.Common
         [SerializeField] private Button m_DisableDepthButton = null;
 
         /// <summary>
-        /// The menu text.
-        /// </summary>
-        [SerializeField] private Text m_MenuText = null;
-
-        /// <summary>
         /// The toggle to enable depth.
         /// </summary>
         [SerializeField] private Toggle m_EnableDepthToggle = null;
@@ -110,9 +105,7 @@ namespace GoogleARCore.Examples.Common
 
         private bool m_DepthConfigured = false;
 
-        private DepthState m_DepthState = DepthState.DepthNotAvailable;
-
-        private LocalizationManager localizationManager;
+        private DepthState m_DepthState = DepthState.DepthNotAvailable; 
 
         public LocalizedText veirdUnlocalizedText;
 
@@ -147,7 +140,6 @@ namespace GoogleARCore.Examples.Common
         /// </summary>
         public void Start()
         {
-            localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
 
             m_MenuButton.onClick.AddListener(_OnMenuButtonClicked);
             m_ApplyButton.onClick.AddListener(_OnApplyButtonClicked);
@@ -225,14 +217,12 @@ namespace GoogleARCore.Examples.Common
                 {
                     m_DepthState = DepthState.DepthDisabled;
                     veirdUnlocalizedText.key = "depthAPISupported";
-                    //m_MenuText.text = localizationManager.GetLocalizedValue("depthAPISupported");
                 }
                 else
                 {
                     _ConfigureDepth(false);
                     m_DepthState = DepthState.DepthNotAvailable;
                     veirdUnlocalizedText.key = "depthAPINotSupported";
-                    //m_MenuText.text = localizationManager.GetLocalizedValue("depthAPINotSupported");
                 }
 
                 _ResetToggle();

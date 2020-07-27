@@ -88,7 +88,7 @@ public class LocalizationManager : MonoBehaviour
         for (int i = 0; i < loadedData.items.Length; i++)
         {
             localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
-            Debug.LogWarning("" +loadedData.items[i].key + "  " + loadedData.items[i].value);
+            //Debug.LogWarning("" +loadedData.items[i].key + "  " + loadedData.items[i].value);
         }
 
         PlayerPrefs.SetString("Language", langName);
@@ -113,7 +113,6 @@ public class LocalizationManager : MonoBehaviour
         if (filePath.Contains("://") || filePath.Contains(":///"))
         {
 
-            Debug.Log("UNITY:" + Environment.NewLine + filePath);
             UnityWebRequest www = UnityWebRequest.Get(filePath);
             yield return www.SendWebRequest();
             dataAsJson = www.downloadHandler.text;
@@ -127,7 +126,6 @@ public class LocalizationManager : MonoBehaviour
 
         Debug.LogWarning(loadedData.items.Length);
         int n = loadedData.items.Length;
-        int k = 0;
 
         for (int i = 0; i < n; i++)
         {
@@ -135,11 +133,8 @@ public class LocalizationManager : MonoBehaviour
             {
                 localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
             }
-            Debug.Log("KEYS:" + loadedData.items[i].key);
-            k++;
+            //Debug.Log("KEYS:" + loadedData.items[i].key);
         }
-
-        Debug.LogWarning("$$$$$$$$$$$$$$$$$$$$$ "+k);
 
         PlayerPrefs.SetString("Language", langName);
         currentLanguage = PlayerPrefs.GetString("Language");

@@ -123,9 +123,9 @@ public class TorqueAdjustmentClassFree
 		new AnimationCurve(new Keyframe(120, 0.0f),new Keyframe(165, 1),new Keyframe(180, 0)),
 		new AnimationCurve(new Keyframe(135, 0.0f),new Keyframe(180, 1),new Keyframe(195, 0)),
 	};
-	[HideInInspector] public int[] minVelocityGears = new int[12] { 0, 15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165 };
-	[HideInInspector] public int[] idealVelocityGears = new int[12] { 10, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180 };
-	[HideInInspector] public int[] maxVelocityGears = new int[12] { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195 };
+	public int[] minVelocityGears = new int[12]   { 0,  15, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165 };
+	public int[] idealVelocityGears = new int[12] { 10, 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180 };
+	public int[] maxVelocityGears = new int[12]   { 30, 45, 60, 75, 90, 105, 120, 135, 150, 165, 180, 195 };
 }
 #endregion
 
@@ -230,7 +230,6 @@ public class CarController : MonoBehaviour
 	bool changinGearsAuto;
 	bool theEngineIsRunning;
 	bool enableEngineSound;
-	bool youCanCall;
 	bool brakingAuto;
 	bool colliding;
 
@@ -241,8 +240,7 @@ public class CarController : MonoBehaviour
 	float mediumRPM;
 	float angle1Ref;
 	float angle2Volant;
-	float volantStartRotation;
-	float minPitchAud;
+
 	float leftDifferential;
 	float rightDifferential;
 	float timeAutoGear;
@@ -455,7 +453,6 @@ public class CarController : MonoBehaviour
 
 		currentDownForceVehicle = _vehicleSettings.improveControl.downForce;
 
-		youCanCall = true;
 		handBrakeTrue = false;
 
 			theEngineIsRunning = _vehicleSettings.startOn;
@@ -1248,15 +1245,12 @@ public class CarController : MonoBehaviour
 	}
 	IEnumerator StartEngineTime()
 	{
-		youCanCall = false;
 		yield return new WaitForSeconds(3);
-		youCanCall = true;
 	}
 	IEnumerator TurnOffEngineTime()
 	{
-		youCanCall = false;
 		yield return new WaitForSeconds(1);
-		youCanCall = true;
+
 	}
 	IEnumerator StartEngineCoroutine(bool startOn)
 	{
@@ -1326,7 +1320,7 @@ public class CarController : MonoBehaviour
 					currentGear = 1;
 				}
 			}
-		
+
 
 		//
 		if (currentGear > 0)

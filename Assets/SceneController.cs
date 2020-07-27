@@ -85,7 +85,7 @@ public class SceneController : MonoBehaviour
             float step = 10000 * Time.deltaTime;
             Vector3 newDirection = Vector3.RotateTowards(Car.transform.forward, targetDirection, step, 0.0F);
             Car.transform.rotation = Quaternion.LookRotation(newDirection);
-            Car.transform.rotation = Quaternion.Euler(Car.transform.rotation.x, 179, Car.transform.rotation.z);
+            Car.transform.rotation = Quaternion.Euler(0, Car.transform.rotation.y, 0);
 
             Car.GetComponent<SimpleCarController>().enabled = false;
             Car.GetComponent<SteeringWheel>().enabled = false;

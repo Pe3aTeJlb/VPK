@@ -11,6 +11,7 @@ TagManager:
   - ContentHolder
   - SceneController
   - LocalizationManager
+  - Model
   layers:
   - Default
   - TransparentFX
