@@ -19,15 +19,6 @@ public class LocalizationManager : MonoBehaviour
     void Awake()
     {
 
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
-        }
-
         DontDestroyOnLoad(gameObject);
 
         if (!PlayerPrefs.HasKey("Language"))
@@ -40,7 +31,7 @@ public class LocalizationManager : MonoBehaviour
             }
             else
             {
-                PlayerPrefs.SetString("Language", "en_US");
+                PlayerPrefs.SetString("Language", "en_EN");
             }
         }
 
@@ -76,13 +67,15 @@ public class LocalizationManager : MonoBehaviour
 
     public void LoadLocalizedText(string langName)
     {
-        string path = Application.streamingAssetsPath +"/"+ langName + ".json";
+        string fileName = langName + ".json";
+        //string path = Application.streamingAssetsPath +"/"+ langName + ".json";
+        string path = Path.Combine(Application.streamingAssetsPath + "/", fileName);
 
         string dataAsJson;
 
         dataAsJson = File.ReadAllText(path);
         LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
-
+        
         localizedText = new Dictionary<string, string>();
 
         for (int i = 0; i < loadedData.items.Length; i++)
@@ -98,11 +91,10 @@ public class LocalizationManager : MonoBehaviour
         OnLanguageChanged?.Invoke();
     }
 
-
     IEnumerator LoadLocalizedTextOnAndroid(string langName)
     {
         string fileName = langName + ".json";
-        
+
         localizedText = new Dictionary<string, string>();
 
         string filePath;
@@ -133,7 +125,7 @@ public class LocalizationManager : MonoBehaviour
             {
                 localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
             }
-            //Debug.Log("KEYS:" + loadedData.items[i].key);
+            Debug.Log("KEYS:" + loadedData.items[i].key);
         }
 
         PlayerPrefs.SetString("Language", langName);
@@ -142,7 +134,6 @@ public class LocalizationManager : MonoBehaviour
 
         OnLanguageChanged?.Invoke();
     }
-
 
     public string GetLocalizedValue(string key)
     {

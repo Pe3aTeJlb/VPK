@@ -1,6 +1,5 @@
 {
 	"items": [
-		//Common
 		{
 			"key": "okButton",
 			"value": "OK"
@@ -25,7 +24,6 @@
 			"key": "Open",
 			"value": "Открыть"
 		},
-		//Depth api menu. check DepthMenu
 		{
 			"key": "depthAPIButton",
 			"value": "Включить камеру глубины"
@@ -46,7 +44,6 @@
 			"key": "depthCardText",
 			"value": "Когда камера глубины включена, виртуальные объекты адаптируются к окружению и органично вписываются в него."
 		},
-		//PlaneDiscovery Guid
 		{
 			"key": "moreHelpTitle",
 			"value": "Как обнаружить поверхность"
@@ -87,7 +84,6 @@
 			"key": "PlaceObjTip",
 			"value": "Наведите вашу камеру на поверхность, где хотите расположить объект"
 		},
-		//ModelMenuController
 		{
 			"key": "DrawAnotation",
 			"value": "Включить аннотацию"

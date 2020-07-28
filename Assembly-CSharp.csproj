@@ -64,8 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\BtnSwitchLang.cs" />
-    <Compile Include="Assets\CalculateCanvasScale.cs" />
-    <Compile Include="Assets\CalculateCanvasScaleEditor.cs" />
     <Compile Include="Assets\CarController.cs" />
     <Compile Include="Assets\ContentController.cs" />
     <Compile Include="Assets\FloatMenuController.cs" />
@@ -261,15 +259,17 @@
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPSession.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPTrackingState.cs" />
     <Compile Include="Assets\ItemDragHandler.cs" />
-    <Compile Include="Assets\LocalizationData.cs" />
-    <Compile Include="Assets\LocalizationManager.cs" />
     <Compile Include="Assets\LocalizedText.cs" />
     <Compile Include="Assets\SceneController.cs" />
+    <Compile Include="Assets\Scripts\CalculateCanvasScale.cs" />
+    <Compile Include="Assets\Scripts\CalculateCanvasScaleEditor.cs" />
+    <Compile Include="Assets\Scripts\Localization\LocalizationData.cs" />
+    <Compile Include="Assets\Scripts\Localization\LocalizationManager.cs" />
+    <Compile Include="Assets\Scripts\UIButtonInfo.cs" />
     <Compile Include="Assets\SimpleCarController.cs" />
     <Compile Include="Assets\Slider.cs" />
     <Compile Include="Assets\SteeringWheel.cs" />
     <Compile Include="Assets\Test.cs" />
-    <Compile Include="Assets\UIButtonInfo.cs" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\PlaneGrid.shader" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\MobileDiffuseWithLightEstimation.shader" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARBackground.shader" />
@@ -281,6 +281,7 @@
     <None Include="Assets\Неоднозначные вещи.txt" />
     <None Include="Assets\GoogleARCore\Examples\ComputerVision\Materials\EdgeDetectionBackground.shader" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARCoreDepth.cginc" />
+    <None Include="Assets\Это надо прочитать.txt" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\MobileSpecularWithLightEstimation.shader" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\OcclusionImageEffect.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">

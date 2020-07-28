@@ -80,7 +80,7 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IPo
 
         if (isPointerOver) {
             sceneController.HideModel();
-            sceneController.DeleteModel();
+            sceneController.DeleteModelOnContentEnter();
         }
         else
         {

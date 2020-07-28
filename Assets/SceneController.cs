@@ -8,9 +8,9 @@ public class SceneController : MonoBehaviour
 {
     public Camera firstPersonCamera;
     public GameObject cam;
+    public PhysicsRaycaster rayCaster;
 
     private Anchor lastAnchor;
-
     private TrackableHit lastHit;
 
     private GameObject Model;
@@ -19,16 +19,17 @@ public class SceneController : MonoBehaviour
     private bool alreadyInstantiated = false;
     private bool tracking;
 
-    public DepthMenu DepthMenu;
     private int currModelsCount = 0;
     private readonly int maxModelsCount = 1; // set max amount of models in the scene
 
+    public DepthMenu DepthMenu;
+
     public GameObject carControl;
     public GameObject contentPanel;
-    public GameObject gameButton;
 
     public DetectedPlaneGenerator planeGenerator;
 
+    public bool kostil;
     public Text fps;
 
     // Start is called before the first frame update
@@ -39,7 +40,6 @@ public class SceneController : MonoBehaviour
         Car = null;
 
         contentPanel.SetActive(false);
-        gameButton.SetActive(false);
     }
 
     // Update is called once per frame
@@ -63,6 +63,15 @@ public class SceneController : MonoBehaviour
 
         ProcessTouches();
 
+
+        //я не знаю как лучше развернуть моедль в направлении камеры
+        if (kostil) 
+        {
+            Car.transform.LookAt(new Vector3(cam.transform.position.x, Car.transform.position.y, cam.transform.position.z));
+            kostil = false;
+
+        }
+
     }
     public void SetModelByIndex(GameObject newModel)
     {
@@ -76,19 +85,12 @@ public class SceneController : MonoBehaviour
         {
             tracking = true;
             alreadyInstantiated = true;
+
+            rayCaster.enabled = false;
+
             Car = Instantiate(Model, Vector3.zero, Quaternion.identity);
-            
-            Car.GetComponent<Rigidbody>().useGravity = false;
 
-            //Face model to the camera
-            Vector3 targetDirection = cam.transform.position - Car.transform.position;
-            float step = 10000 * Time.deltaTime;
-            Vector3 newDirection = Vector3.RotateTowards(Car.transform.forward, targetDirection, step, 0.0F);
-            Car.transform.rotation = Quaternion.LookRotation(newDirection);
-            Car.transform.rotation = Quaternion.Euler(0, Car.transform.rotation.y, 0);
-
-            Car.GetComponent<SimpleCarController>().enabled = false;
-            Car.GetComponent<SteeringWheel>().enabled = false;
+            kostil = true;
             
             Car.SetActive(false);
 
@@ -176,13 +178,15 @@ public class SceneController : MonoBehaviour
             Car.transform.parent = lastAnchor.transform;
             Car.SetActive(true);
 
+            //Car.GetComponentInChildren<FloatMenuController>().enabled = true;
+
             alreadyInstantiated = false;
             
             Car = new GameObject();
 
-            gameButton.SetActive(true);
-
             currModelsCount += 1;
+
+            rayCaster.enabled = true;
 
             planeGenerator.hideNewPlanes = true;
             planeGenerator.HideAllPlanes();
@@ -220,12 +224,25 @@ public class SceneController : MonoBehaviour
         if (Car != null) Car.SetActive(false);
     }
 
-    public void DeleteModel() {
+    public void DeleteModelOnContentEnter() {
         if (Car != null) {
             Destroy(Car);
             Debug.Log("Deleted");
             alreadyInstantiated = false;
+            currModelsCount--;
         }
+    }
+
+    public void DeleteModel(GameObject Car) 
+    {
+
+        if (Car != null)
+        {
+            Destroy(Car);
+            Debug.Log("Deleted");
+            currModelsCount--;
+        }
+
     }
 
     void QuitOnConnectionErrors()

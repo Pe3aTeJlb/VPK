@@ -1,5 +1,6 @@
 {
 	"items": [
+		//Common 
 		{
 			"key": "okButton",
 			"value": "OK"
@@ -24,6 +25,7 @@
 			"key": "Open",
 			"value": "Open"
 		},
+		//Depth api menu. check DepthMenu
 		{
 			"key": "depthAPIButton",
 			"value": "enable depth API"
@@ -44,6 +46,7 @@
 			"key": "depthCardText",
 			"value": "When Depth is  enabled on supported devices, virtual objects adapt to the environment by blending in with the real world."
 		},
+		//PlaneDiscovery Guid
 		{
 			"key": "moreHelpTitle",
 			"value": "How to find a surface"
@@ -84,6 +87,7 @@
 			"key": "PlaceObjTip",
 			"value": "Point your camera to where you want to place an object."
 		},
+		//ModelMenuController
 		{
 			"key": "DrawAnotation",
 			"value": "Draw Annotation"

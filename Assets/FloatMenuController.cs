@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -13,17 +12,21 @@ public class Annotation
 public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
     public List<Annotation> annotations;
-
-    private Transform Model;
-
-    public Canvas menu;
-    public LocalizedText annotationButton;
-    private bool annotationIsOpen;
-    private Vector3 originPos;
-
+    
+    private GameObject root; // the root
+    public Transform Model; // the mesh
 
     private Camera cam;
 
+    public Canvas menu;
+    public LocalizedText annotationButton; //annotation enable button/ needs to change text 
+
+    private bool annotationIsOpen;
+    private LineRenderer buffLine;
+    private Vector3[] buff = new Vector3[4];
+    public float lineWidth;
+
+    //LongTap
     private bool pointerOverModel;
     private float startTime, currTime;
     public float boundaryValue = 0.85f;
@@ -31,8 +34,10 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
     private bool transformModel = false;
 
+    //transform model
     private float scale = 1;
     public float scaleStep = 0.05f;
+    public float minScale;
 
     public float screwSense;
     private float rotation;
@@ -50,17 +55,20 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
         menu.enabled = false;
 
-        Model = transform.parent.transform;
+        root = transform.parent.gameObject;
 
         foreach (Annotation an in annotations)
         {
             an.uiElement.SetActive(false);
+            an.targetPoint.SetActive(false);
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (eventData.clickCount == 2)
+        int taps = eventData.clickCount;
+        Debug.Log(taps);
+        if (taps == 2)
         {
             Debug.Log("Double click on model");
             transformModel = !transformModel;
@@ -72,28 +80,32 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
         pointerOverModel = true;   
     }
 
-
     private void Update()
     {
 
         if (menu.isActiveAndEnabled)
         {
-
             menu.transform.LookAt(cam.transform);
             menu.transform.Rotate(Vector3.up, 180);
-            //menu.transform.rotation = Quaternion.Euler(menu.transform.rotation.x, -menu.transform.rotation.y, menu.transform.rotation.z);
         }
 
         if (annotationIsOpen) 
         {
-
             foreach (Annotation an in annotations)
             {
-                originPos = an.targetPoint.transform.position;
-                an.uiElement.transform.LookAt(cam.transform);
-                an.uiElement.transform.Rotate(Vector3.up, 180);
-                an.targetPoint.transform.position = originPos;
+                //force ui look at camera
+                    an.uiElement.transform.LookAt(cam.transform);
+                    an.uiElement.transform.Rotate(Vector3.up, 180);
 
+                    an.targetPoint.transform.LookAt(cam.transform);
+
+                    buffLine = an.uiElement.GetComponent<LineRenderer>();
+
+                    RectTransform ui = an.uiElement.transform as RectTransform;
+
+                    ui.GetWorldCorners(buff);
+
+                    buffLine.SetPositions(new Vector3[] { buff[3], an.targetPoint.transform.position });
             }
 
         }
@@ -102,6 +114,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
         {
             if (Input.GetMouseButtonDown(0))
             {
+                longTapOver = false;
                 startTime = Time.time;
             }
 
@@ -112,7 +125,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
             if (Input.GetMouseButtonUp(0))
             {
-                longTapOver = false;
+                //longTapOver = false;
             }
 
             if (currTime - startTime > boundaryValue && !longTapOver)
@@ -130,61 +143,61 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
         if (transformModel)
         {
 
-#if UNITY_EDITOR
-
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (Application.platform == RuntimePlatform.Android)
             {
-                scale += scaleStep;
+
+                if (Input.touchCount == 2)
+                {
+                    Touch touchZero = Input.GetTouch(0);
+                    Touch touchOne = Input.GetTouch(1);
+
+                    Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+                    Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+
+                    float prevTouchDelMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+                    float TouchDelMag = (touchZero.position - touchOne.position).magnitude;
+
+                    float deltaMagnitudeDiff = prevTouchDelMag - TouchDelMag;
+
+                    scale += deltaMagnitudeDiff * scaleStep;
+
+                    scale = Mathf.Clamp(scale, minScale, 1);
+                }
+
+                if (Input.touchCount == 1)
+                {
+
+                    rotation = transform.localEulerAngles.y + Input.GetTouch(0).deltaPosition.x * screwSense;
+                    transform.localEulerAngles = new Vector3(0, rotation, 0);
+
+                }
+
             }
-            else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            else
             {
-                scale -= scaleStep;
+
+                if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                {
+                    scale += scaleStep;
+                }
+                else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                {
+                    scale -= scaleStep;
+                }
+
+                scale = Mathf.Clamp(scale, minScale, 1);
+
+                Model.localScale = new Vector3(scale, scale, scale);
+
+                if (Input.GetKey(KeyCode.Mouse0))
+                {
+                    rotation = Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
+                    Model.localEulerAngles = new Vector3(0, rotation, 0);
+                }
+
             }
 
-            scale = Mathf.Clamp(scale, 0.1f, 1);
-
-            Model.localScale = new Vector3(scale, scale, scale);
-
-            if (Input.GetKey(KeyCode.Mouse0))
-            {
-                rotation = Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
-                Model.localEulerAngles = new Vector3(0, rotation, 0);
-            }
-#endif
-
-            /// управление для сенсора
-#if !UNITY_EDITOR && UNITY_ANDROID
-/*
-        if (Input.touchCount == 2) {
-				Touch touchZero = Input.GetTouch (0);
-				Touch touchOne = Input.GetTouch (1);
-
-				Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
-				Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
-
-				float prevTouchDelMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-				float TouchDelMag = (touchZero.position - touchOne.position).magnitude;
-
-				float deltaMagnitudeDiff = prevTouchDelMag - TouchDelMag;
-
-				offset.z -= deltaMagnitudeDiff * sensor_zoomSpeed;
-				offset.z = Mathf.Max (offset.z, -zoomMax);
-                offset.z = Mathf.Clamp(offset.z, -Mathf.Abs(zoomMax), -Mathf.Abs(zoomMin));
         }
-				
-			if ((Input.touchCount == 1) && expo_mod_on == false && stop_rotating_i_touched == false) {
-			
-				X = transform.localEulerAngles.y + Input.GetTouch (0).deltaPosition.x * sensor_sensitivity;
-				Y += Input.GetTouch (0).deltaPosition.y * sensor_sensitivity;
-				Y = Mathf.Clamp (Y, -limit, limit);
-				transform.localEulerAngles = new Vector3 (-Y, X, 0);
-
-			}
-            */
-#endif
-
-        }
-
 
     }
 
@@ -210,18 +223,20 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
             foreach (Annotation an in annotations)
             {
-                an.uiElement.SetActive(true);
 
-                LineRenderer line = an.uiElement.GetComponent<LineRenderer>();
+                an.uiElement.SetActive(true);
+                an.targetPoint.SetActive(true);
+
+                buffLine = an.uiElement.GetComponent<LineRenderer>();
 
                 RectTransform ui = an.uiElement.transform as RectTransform;
 
-                Vector3 bottomRightCorner = new Vector3(ui.offsetMax.x, ui.offsetMin.y, 0);
+                ui.GetWorldCorners(buff);
 
-                line.SetPositions(new Vector3[] { bottomRightCorner, an.targetPoint.transform.localPosition });
+                buffLine.SetPositions(new Vector3[] { buff[3], an.targetPoint.transform.position});
 
-                line.startWidth = 0.01f;
-                line.endWidth = 0.01f;
+                buffLine.startWidth = lineWidth;
+                buffLine.endWidth = lineWidth;
 
             }
         }
@@ -234,28 +249,21 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
             foreach (Annotation an in annotations)
             {
                 an.uiElement.SetActive(false);
-
-                LineRenderer line = an.uiElement.GetComponent<LineRenderer>();
-
-                RectTransform ui = an.uiElement.transform as RectTransform;
-
-                Vector3 bottomRightCorner = new Vector3(ui.offsetMax.x, ui.offsetMin.y, 0);
-
-                line.SetPositions(new Vector3[] { bottomRightCorner, an.targetPoint.transform.localPosition });
-
-                line.startWidth = 0.01f;
-                line.endWidth = 0.01f;
+                an.targetPoint.SetActive(false);
 
             }
 
         }
     }
 
-
+    public void TestDrive() 
+    { 
+    
+    }
 
     public void RemoveModel()
     {
-        //sceneController
+        sceneController.DeleteModel(root);
     }
 
 }

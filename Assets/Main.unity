@@ -147,7 +147,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5228683
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   models:
   - icon: {fileID: 21300000, guid: 8e5b0558c8157a5479d8a2e7a5cd94a9, type: 3}
-    modelPrefab: {fileID: 4516324704027170591, guid: 5dec2345564afbd43a245090a0331d22,
+    modelPrefab: {fileID: 4859500773421769987, guid: a0aa6716f4d103540b20c24c769c5353,
       type: 3}
   iconPrefab: {fileID: 935583191765643549, guid: a7da06f09dab29245a2bd355e0b18d33,
     type: 3}
@@ -624,12 +624,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firstPersonCamera: {fileID: 551443649}
-  cam: {fileID: 551443651}
+  cam: {fileID: 551443652}
+  rayCaster: {fileID: 551443654}
   terrain: {fileID: 1968420042910217383, guid: 9262056ba1c7e8341b7cdd6a5384392a, type: 3}
   DepthMenu: {fileID: 894480058}
   carControl: {fileID: 174911994}
   contentPanel: {fileID: 537368230}
-  gameButton: {fileID: 762539373}
   planeGenerator: {fileID: 222133963}
   fps: {fileID: 834026519}
 --- !u!4 &222133965
@@ -865,7 +865,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u041D\u0430\u0441\u0442\u0440\u043E\u0439\u043A\u0438"
+  m_Text: Test
 --- !u!222 &293316253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1689,12 +1689,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 551443648}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &551443651 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1772147192650458, guid: c10877f7cd5764de18d46d7b777d1faa,
-    type: 3}
-  m_PrefabInstance: {fileID: 551443648}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &551443652 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1637996540812124, guid: c10877f7cd5764de18d46d7b777d1faa,
@@ -1720,6 +1714,22 @@ MonoBehaviour:
   OcclusionOffset: 0.08
   OcclusionFadeVelocity: 4
   TransitionSize: 0.1
+--- !u!114 &551443654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551443652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -768656878, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &583554265
 GameObject:
   m_ObjectHideFlags: 0
@@ -3209,9 +3219,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0412\u0430\u0448\u0435 \u0443\u0441\u0442\u0440\u043E\u0439\u0441\u0442\u0432\u043E
-    \u043D\u0435 \u043F\u043E\u0434\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0435\u0442
-    \u043A\u0430\u043C\u0435\u0440\u0443 \u0433\u043B\u0443\u0431\u0438\u043D\u044B"
+  m_Text: This text should be in Russian
 --- !u!114 &1008715192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4501,7 +4509,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2120687943}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

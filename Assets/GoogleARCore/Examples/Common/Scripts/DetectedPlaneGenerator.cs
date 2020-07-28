@@ -77,14 +77,14 @@ namespace GoogleARCore.Examples.Common
         public void HideAllPlanes() {
             for (int i = 0; i < allPlaneObjects.Count; i++)
             {
-                allPlaneObjects[i].m_MeshRenderer.enabled = false;
+                if (allPlaneObjects[i].m_MeshRenderer != null)allPlaneObjects[i].m_MeshRenderer.enabled = false;
             }
         }
 
         public void ShowAllPlanes()
         {
             for (int i = 0; i < allPlaneObjects.Count; i++) {
-                allPlaneObjects[i].m_MeshRenderer.enabled = true;
+                if(allPlaneObjects[i].m_MeshRenderer != null)allPlaneObjects[i].m_MeshRenderer.enabled = true;
             }
         }
 
