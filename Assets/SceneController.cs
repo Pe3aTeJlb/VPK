@@ -3,6 +3,7 @@ using GoogleARCore;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GoogleARCore.Examples.Common;
+using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour
 {
@@ -20,11 +21,11 @@ public class SceneController : MonoBehaviour
     private bool tracking;
 
     private int currModelsCount = 0;
-    private readonly int maxModelsCount = 1; // set max amount of models in the scene
+    private readonly int maxModelsCount = 10; // set max amount of models in the scene
 
     public DepthMenu DepthMenu;
 
-    public GameObject carControl;
+    public Canvas carControl;
     public GameObject contentPanel;
 
     public DetectedPlaneGenerator planeGenerator;
@@ -32,10 +33,12 @@ public class SceneController : MonoBehaviour
     public bool kostil;
     public Text fps;
 
+    private List<GameObject> models = new List<GameObject>();
+
     // Start is called before the first frame update
     void Start()
     {
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 30;
         QuitOnConnectionErrors();
         Car = null;
 
@@ -73,6 +76,7 @@ public class SceneController : MonoBehaviour
         }
 
     }
+   
     public void SetModelByIndex(GameObject newModel)
     {
         Model = newModel;
@@ -181,6 +185,8 @@ public class SceneController : MonoBehaviour
             //Car.GetComponentInChildren<FloatMenuController>().enabled = true;
 
             alreadyInstantiated = false;
+
+            models.Add(Car);
             
             Car = new GameObject();
 
@@ -199,24 +205,37 @@ public class SceneController : MonoBehaviour
         contentPanel.SetActive(true);
     }
 
-    //Prepare game mode 
-    public void Game() {
-        
-
-        if (currModelsCount == 1)
+    public void Exposition() 
+    {
+        foreach (GameObject model in models)
         {
-            Screen.orientation = ScreenOrientation.Landscape;
-
-            carControl.SetActive(true);
-
-            var gO = Instantiate(terrain, Car.transform.position, Quaternion.identity);
-            gO.transform.parent = Car.transform.parent;
-
-            Car.GetComponent<Rigidbody>().useGravity = true;
-            Car.GetComponent<SimpleCarController>().enabled = true;
-            Car.GetComponent<SteeringWheel>().enabled = true;
-            Car.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+            model.SetActive(true);
         }
+
+    }
+
+    //Prepare game mode 
+    public void TestDrive(GameObject gameModel) {
+
+        Debug.LogError(gameModel);
+        Model = gameModel;
+
+        foreach (GameObject model in models) 
+        {
+            model.SetActive(false);
+        }
+
+        Screen.orientation = ScreenOrientation.Landscape;
+
+        carControl.enabled = true;
+      
+        GameObject gM = Instantiate(gameModel, lastAnchor.transform.position, Quaternion.identity);
+        gM.transform.parent = lastAnchor.transform;
+        gM.transform.Rotate(Vector3.up, 180);
+
+        GameObject gO = Instantiate(terrain, lastAnchor.transform.position, Quaternion.identity);        
+        gO.transform.parent = lastAnchor.transform;
+
     }
 
     public void HideModel()
@@ -238,6 +257,7 @@ public class SceneController : MonoBehaviour
 
         if (Car != null)
         {
+            models.Remove(Car);
             Destroy(Car);
             Debug.Log("Deleted");
             currModelsCount--;
