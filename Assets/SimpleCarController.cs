@@ -244,7 +244,7 @@ public class SimpleCarController : MonoBehaviour
 				//beatsSoundAUD = GenerateAudioSource("Sound of beats", 10, _sounds.volumeCollisionSounds, _sounds.collisionSounds[UnityEngine.Random.Range(0, _sounds.collisionSounds.Length)], false, false, false);
 			}
 		}
-		skiddingSoundAUD.clip = _sounds.skiddingSound.standardSound;
+		//skiddingSoundAUD.clip = _sounds.skiddingSound.standardSound;
 
 		/*
 		lastRightForwardPositionY = _wheels.rightFrontWheel.wheelMesh.transform.localPosition.y;
