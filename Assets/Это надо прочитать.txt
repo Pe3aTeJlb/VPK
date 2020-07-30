@@ -4,7 +4,8 @@ UTF-8 if broken
 1. Собрать презентационную модель
 2. Собрать модель для игры, если такая предполагается
 3. Сделать иконку для отображения в панели выбора
-4. В сцене Main идём в AR Core Device -> AR Core UI -> Content View -> ViewPoint -> Content -> В инспекторе ContentController Добавляем в models Вышеперечисленное
+4. В сцене Main идём в AR Core Device -> AR Core UI -> Content View -> ViewPoint -> Content -> В инспекторе ContentController Добавляем в models модель 
+5. В модели -> Float UI Controller добавить модель для игры
 
 Как собрать презентационную модель:
 1. Создать пустышку

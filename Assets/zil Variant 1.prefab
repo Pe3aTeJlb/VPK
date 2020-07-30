@@ -646,7 +646,7 @@ GameObject:
   - component: {fileID: 5120764618864333985}
   m_Layer: 0
   m_Name: zil Variant 1
-  m_TagString: Untagged
+  m_TagString: Model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -705,16 +705,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vehicleTorque:
     maxVelocityKMh: 90
-    engineTorque: 3
+    engineTorque: 5
     numberOfGears: 5
-    speedOfGear: 1.5
+    speedOfGear: 1
     manualAdjustmentOfTorques:
-    - 0.52
-    - 0.73
-    - 0.97
-    - 1.22
-    - 1.2
-    - 1.51
+    - 1.1
+    - 1
+    - 1
+    - 1.1
+    - 1.1
+    - 1
     - 1
     - 1
     - 1
@@ -1106,9 +1106,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    minVelocityGears: 000000000f0000001e0000002d0000003c0000004b0000005a00000069000000780000008700000096000000a5000000
-    idealVelocityGears: 0a0000001e0000002d0000003c0000004b0000005a00000069000000780000008700000096000000a5000000b4000000
-    maxVelocityGears: 1e0000002d0000003c0000004b0000005a00000069000000780000008700000096000000a5000000b4000000c3000000
+    minVelocityGears: 010000000c00000016000000270000003d0000005a0000005a00000069000000780000008700000096000000a5000000
+    idealVelocityGears: 0c00000016000000270000003d0000005a0000005a00000069000000780000008700000096000000a5000000b4000000
+    maxVelocityGears: 0c00000016000000270000003d0000005a00000069000000780000008700000096000000a5000000b4000000c3000000
   _vehicleSettings:
     startOn: 1
     vehicleMass: 5000
@@ -1118,7 +1118,7 @@ MonoBehaviour:
       helpToStraightenOut: 1
       downForce: 2
     _aerodynamics:
-      extraGravity: 0
+      extraGravity: 1
       feelingHeavy: 1
       downForceAngleFactor: 0.2
       verticalDownForce: 0.8
@@ -1214,9 +1214,9 @@ MonoBehaviour:
       sidewaysSkid: 0
   _sounds:
     speedOfEngineSound: 3.5
-    engineSound: {fileID: 8300000, guid: ea2f6284fb2d5a44784c012c3c786f87, type: 3}
+    engineSound: {fileID: 0}
     skiddingSound:
-      standardSound: {fileID: 8300000, guid: 034580176483184419f3393bf1cefbbb, type: 3}
+      standardSound: {fileID: 0}
       standardVolume: 1.5
     collisionSounds: []
     volumeCollisionSounds: 0.5
@@ -1395,7 +1395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764553445110209993}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1478882, y: 0.61974716, z: -2.5600944}
+  m_LocalPosition: {x: -1.1478882, y: 0.598, z: -2.5600944}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4516324704027134779}
@@ -1601,7 +1601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764553445984353010}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9453125, y: 0.6192732, z: 2.014142}
+  m_LocalPosition: {x: -0.9453125, y: 0.6140156, z: 2.014142}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4516324704027134765}
@@ -1663,7 +1663,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764553446173283364}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.861084, y: 0.6183367, z: -2.558353}
+  m_LocalPosition: {x: 0.861084, y: 0.598, z: -2.558353}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4516324704027134757}
@@ -1725,7 +1725,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764553446791792274}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.9036865, y: 0.61765194, z: -1.388226}
+  m_LocalPosition: {x: 0.9036865, y: 0.598, z: -1.388226}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4516324704027134759}
@@ -1787,7 +1787,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5764553447131504165}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.1001587, y: 0.61662483, z: -1.3872495}
+  m_LocalPosition: {x: -1.1001587, y: 0.598, z: -1.3872495}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children:
   - {fileID: 4516324704027134753}

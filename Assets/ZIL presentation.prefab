@@ -45,6 +45,8 @@ MonoBehaviour:
   annotations:
   - uiElement: {fileID: 4859500772338028890}
     targetPoint: {fileID: 4859500773546016396}
+  gameMoldel: {fileID: 8107356359634358293, guid: 55b72e67c55d39a46932d12abcdfb2ca,
+    type: 3}
   Model: {fileID: 9069510053090350472}
   menu: {fileID: 4859500772898821062}
   annotationButton: {fileID: 908331544}
@@ -53,6 +55,7 @@ MonoBehaviour:
   scaleStep: 0.05
   minScale: 0.25
   screwSense: 3
+  timeBetweenClicks: 0.4
 --- !u!114 &908331544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -802,6 +805,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4859500773421769986}
     m_Modifications:
+    - target: {fileID: 831933480060971155, guid: 6a0c2f6bab196614ea8d1144ba3e040c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6392667512127484075, guid: 6a0c2f6bab196614ea8d1144ba3e040c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -838,6 +846,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6392667513213971582, guid: 6a0c2f6bab196614ea8d1144ba3e040c,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4240662794875275439}
+    - target: {fileID: 6392667513347328641, guid: 6a0c2f6bab196614ea8d1144ba3e040c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6392667513347328646, guid: 6a0c2f6bab196614ea8d1144ba3e040c,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
