@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -12,6 +13,8 @@ public class Annotation
 public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
 {
     public List<Annotation> annotations;
+
+    public GameObject gameMoldel;
     
     private GameObject root; // the root
     public Transform Model; // the mesh
@@ -44,9 +47,14 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
     private SceneController sceneController;
 
+    private float firstClickTime; //double click
+    public float timeBetweenClicks = 0.5f;
+    private int clickCounter;
+
     // Start is called before the first frame update
     void Start()
     {
+
         Application.targetFrameRate = 60;
 
         sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
@@ -66,6 +74,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        /*
         int taps = eventData.clickCount;
         Debug.Log(taps);
         if (taps == 2)
@@ -73,6 +82,10 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
             Debug.Log("Double click on model");
             transformModel = !transformModel;
         }
+        */
+        clickCounter++;
+        firstClickTime = Time.time;
+        StartCoroutine(DoubleClickDetection());
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -167,8 +180,8 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
                 if (Input.touchCount == 1)
                 {
 
-                    rotation = transform.localEulerAngles.y + Input.GetTouch(0).deltaPosition.x * screwSense;
-                    transform.localEulerAngles = new Vector3(0, rotation, 0);
+                    rotation += transform.localEulerAngles.y + Input.GetTouch(0).deltaPosition.x * -screwSense / 20;
+                    Model.transform.localEulerAngles = new Vector3(0, rotation, 0);
 
                 }
 
@@ -191,7 +204,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    rotation = Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
+                    rotation += Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
                     Model.localEulerAngles = new Vector3(0, rotation, 0);
                 }
 
@@ -257,13 +270,36 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
     }
 
     public void TestDrive() 
-    { 
-    
+    {
+        if (sceneController == null) 
+        {
+            Debug.Log("Somehow its null");
+            sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
+        }
+
+        Debug.Log("fmc 280 "+gameMoldel);
+        sceneController.TestDrive(gameMoldel);
     }
 
     public void RemoveModel()
     {
         sceneController.DeleteModel(root);
+    }
+
+    private IEnumerator DoubleClickDetection()
+    {
+        while (Time.time < firstClickTime + timeBetweenClicks)
+        {
+            if (clickCounter == 2)
+            {
+                Debug.Log("Double click on model");
+                transformModel = !transformModel;
+                break;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+        clickCounter = 0;
+        firstClickTime = 0f;
     }
 
 }
