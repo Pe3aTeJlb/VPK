@@ -271,6 +271,8 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
     public void TestDrive() 
     {
+        menu.enabled = false;
+
         if (sceneController == null) 
         {
             Debug.Log("Somehow its null");

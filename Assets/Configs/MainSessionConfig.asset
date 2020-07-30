@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53ac32fab2599402fb6d154adf4c1e40, type: 3}
   m_Name: MainSessionConfig
   m_EditorClassIdentifier: 
-  MatchCameraFramerate: 1
+  MatchCameraFramerate: 0
   PlaneFindingMode: 2
-  LightEstimationMode: 3
+  LightEstimationMode: 2
   CloudAnchorMode: 0
   AugmentedImageDatabase: {fileID: 0}
   CameraFocusMode: 0

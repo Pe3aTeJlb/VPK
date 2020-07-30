@@ -16,9 +16,12 @@ public class SceneController : MonoBehaviour
 
     private GameObject Model;
     private GameObject Car;
-    public GameObject terrain;
+    private GameObject gameCar;
     private bool alreadyInstantiated = false;
     private bool tracking;
+
+    public GameObject terrainPrefab;
+    private GameObject terrain;
 
     private int currModelsCount = 0;
     private readonly int maxModelsCount = 10; // set max amount of models in the scene
@@ -35,14 +38,18 @@ public class SceneController : MonoBehaviour
 
     private List<GameObject> models = new List<GameObject>();
 
+    public GameObject backToExposition;
+
     // Start is called before the first frame update
     void Start()
     {
         Application.targetFrameRate = 30;
+        Screen.orientation = ScreenOrientation.Landscape;
         QuitOnConnectionErrors();
         Car = null;
 
         contentPanel.SetActive(false);
+        backToExposition.SetActive(false);
     }
 
     // Update is called once per frame
@@ -207,15 +214,27 @@ public class SceneController : MonoBehaviour
 
     public void Exposition() 
     {
+        backToExposition.SetActive(false);
+
+        Destroy(gameCar);
+        Destroy(terrain);
+
         foreach (GameObject model in models)
         {
             model.SetActive(true);
         }
 
+        contentPanel.SetActive(true);
+        carControl.enabled = false;
+
     }
 
     //Prepare game mode 
     public void TestDrive(GameObject gameModel) {
+
+
+        backToExposition.SetActive(true);
+        contentPanel.SetActive(false);
 
         Debug.LogError(gameModel);
         Model = gameModel;
@@ -225,16 +244,14 @@ public class SceneController : MonoBehaviour
             model.SetActive(false);
         }
 
-        Screen.orientation = ScreenOrientation.Landscape;
-
         carControl.enabled = true;
       
-        GameObject gM = Instantiate(gameModel, lastAnchor.transform.position, Quaternion.identity);
-        gM.transform.parent = lastAnchor.transform;
-        gM.transform.Rotate(Vector3.up, 180);
+        gameCar = Instantiate(gameModel, lastAnchor.transform.position, Quaternion.identity);
+        gameCar.transform.parent = lastAnchor.transform;
+        gameCar.transform.Rotate(Vector3.up, 180);
 
-        GameObject gO = Instantiate(terrain, lastAnchor.transform.position, Quaternion.identity);        
-        gO.transform.parent = lastAnchor.transform;
+        terrain = Instantiate(terrainPrefab, lastAnchor.transform.position, Quaternion.identity);
+        terrain.transform.parent = lastAnchor.transform;
 
     }
 

@@ -12,6 +12,7 @@ TagManager:
   - SceneController
   - LocalizationManager
   - Model
+  - Spawn
   layers:
   - Default
   - TransparentFX

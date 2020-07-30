@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetCameraFramerate:
     Target30FPS: 1
-    Target60FPS: 1
+    Target60FPS: 0
   DepthSensorUsage:
     RequireAndUse: 1
     DoNotUse: 1

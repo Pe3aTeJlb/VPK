@@ -116,7 +116,6 @@ public class LocalizationManager : MonoBehaviour
         }
         LocalizationData loadedData = JsonUtility.FromJson<LocalizationData>(dataAsJson);
 
-        Debug.LogWarning(loadedData.items.Length);
         int n = loadedData.items.Length;
 
         for (int i = 0; i < n; i++)
@@ -125,7 +124,7 @@ public class LocalizationManager : MonoBehaviour
             {
                 localizedText.Add(loadedData.items[i].key, loadedData.items[i].value);
             }
-            Debug.Log("KEYS:" + loadedData.items[i].key);
+            //Debug.Log("KEYS:" + loadedData.items[i].key);
         }
 
         PlayerPrefs.SetString("Language", langName);

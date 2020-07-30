@@ -131,6 +131,7 @@ namespace GoogleARCore.Examples.Common
         private SceneController sceneController;
 
         private LocalizationManager localizationManager;
+        private bool callOnce = true;
 
         /// <summary>
         /// Unity's Start() method.
@@ -309,7 +310,10 @@ namespace GoogleARCore.Examples.Common
                 m_FeaturePoints.SetActive(false);
                 m_SnackBar.SetActive(false);
                 m_OpenButton.SetActive(false);
-                if (m_DetectedPlaneElapsed > k_HideGuideDelay) sceneController.EnableContentPanel();
+                if (m_DetectedPlaneElapsed > k_HideGuideDelay && callOnce)
+                { sceneController.EnableContentPanel();
+                    callOnce = false;
+                }
                
 
 
