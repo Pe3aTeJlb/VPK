@@ -1206,13 +1206,14 @@ MonoBehaviour:
   firstPersonCamera: {fileID: 0}
   cam: {fileID: 0}
   rayCaster: {fileID: 0}
-  terrain: {fileID: 0}
+  terrainPrefab: {fileID: 0}
   DepthMenu: {fileID: 0}
   carControl: {fileID: 0}
   contentPanel: {fileID: 0}
   planeGenerator: {fileID: 0}
   kostil: 0
   fps: {fileID: 0}
+  backToExposition: {fileID: 0}
 --- !u!1 &966181029
 GameObject:
   m_ObjectHideFlags: 0
@@ -2551,11 +2552,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: terrain
-      objectReference: {fileID: 0}
-    - target: {fileID: 2621037981317651086, guid: 94a6bb890b3fd774dbe44a8aea79d7f6,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94a6bb890b3fd774dbe44a8aea79d7f6, type: 3}
