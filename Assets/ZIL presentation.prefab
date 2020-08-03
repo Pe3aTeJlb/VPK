@@ -45,7 +45,7 @@ MonoBehaviour:
   annotations:
   - uiElement: {fileID: 4859500772338028890}
     targetPoint: {fileID: 4859500773546016396}
-  gameMoldel: {fileID: 8107356359634358293, guid: 55b72e67c55d39a46932d12abcdfb2ca,
+  gameMoldel: {fileID: 4516324704027170591, guid: 5dec2345564afbd43a245090a0331d22,
     type: 3}
   Model: {fileID: 9069510053090350472}
   menu: {fileID: 4859500772898821062}

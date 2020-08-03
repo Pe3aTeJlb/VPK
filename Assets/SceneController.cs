@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour
 {
+    public GameObject arRoot;
     public Camera firstPersonCamera;
     public GameObject cam;
     public PhysicsRaycaster rayCaster;
@@ -39,6 +40,8 @@ public class SceneController : MonoBehaviour
     private List<GameObject> models = new List<GameObject>();
 
     public GameObject backToExposition;
+
+    //public UnityEngine.UI.Slider s;
 
     // Start is called before the first frame update
     void Start()
@@ -81,6 +84,9 @@ public class SceneController : MonoBehaviour
             kostil = false;
 
         }
+
+
+       // arRoot.transform.localScale = new Vector3(s.value, s.value, s.value);
 
     }
    
@@ -231,7 +237,6 @@ public class SceneController : MonoBehaviour
 
     //Prepare game mode 
     public void TestDrive(GameObject gameModel) {
-
 
         backToExposition.SetActive(true);
         contentPanel.SetActive(false);

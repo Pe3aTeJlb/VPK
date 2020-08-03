@@ -175,6 +175,8 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
                     scale += deltaMagnitudeDiff * scaleStep;
 
                     scale = Mathf.Clamp(scale, minScale, 1);
+
+                    Model.localScale = new Vector3(scale, scale, scale);
                 }
 
                 if (Input.touchCount == 1)

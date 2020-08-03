@@ -660,7 +660,7 @@ Transform:
   m_GameObject: {fileID: 4516324704027170591}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 867.67, y: 19.34, z: -12.33}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4516324704027134763}
   - {fileID: 5764553445120975809}
@@ -1125,7 +1125,7 @@ MonoBehaviour:
       minDownForceValue: 2
     centerOfMass: {fileID: 5152374116864594619}
   axleInfos:
-  - wheelMass: 2500
+  - wheelMass: 20
     rightWheel:
       wheelMesh: {fileID: 4516324704027134767}
       wheelCollider: {fileID: 5764553445120975808}
