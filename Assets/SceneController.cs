@@ -41,7 +41,9 @@ public class SceneController : MonoBehaviour
 
     public GameObject backToExposition;
 
-    //public UnityEngine.UI.Slider s;
+    public UnityEngine.UI.Slider s;
+    public ARSessionOrigin sessionOrigin;
+    public GameObject referenseToScale;
 
     // Start is called before the first frame update
     void Start()
@@ -85,9 +87,21 @@ public class SceneController : MonoBehaviour
 
         }
 
+        Debug.LogWarning(cam.transform.localScale);
+        //cam.transform.localScale = new Vector3(s.value, s.value, s.value);
+        
+    }
 
-       // arRoot.transform.localScale = new Vector3(s.value, s.value, s.value);
+    public void setScale() {
 
+
+        sessionOrigin.MakeContentAppearAt(
+           referenseToScale.transform,
+           referenseToScale.transform.position,
+           referenseToScale.transform.rotation);
+
+        arRoot.transform.localScale = new Vector3(s.value, s.value, s.value);
+        //cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, -s.value);
     }
    
     public void SetModelByIndex(GameObject newModel)
@@ -191,6 +205,7 @@ public class SceneController : MonoBehaviour
             tracking = false;
 
             lastAnchor = lastHit.Trackable.CreateAnchor(lastHit.Pose);
+            referenseToScale.transform.position = lastHit.Pose.position;
 
             Car.transform.parent = lastAnchor.transform;
             Car.SetActive(true);
@@ -241,7 +256,6 @@ public class SceneController : MonoBehaviour
         backToExposition.SetActive(true);
         contentPanel.SetActive(false);
 
-        Debug.LogError(gameModel);
         Model = gameModel;
 
         foreach (GameObject model in models) 
@@ -268,7 +282,6 @@ public class SceneController : MonoBehaviour
     public void DeleteModelOnContentEnter() {
         if (Car != null) {
             Destroy(Car);
-            Debug.Log("Deleted");
             alreadyInstantiated = false;
             currModelsCount--;
         }
@@ -304,7 +317,7 @@ public class SceneController : MonoBehaviour
             Invoke("Quit", 0.5f);
         }
     }
-
+    
     private void ShowAndroidToastMessage(string message)
     {
         AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
@@ -328,5 +341,7 @@ public class SceneController : MonoBehaviour
     {
         Application.Quit();
     }
+
+
 
 }

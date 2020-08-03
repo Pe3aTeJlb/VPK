@@ -143,7 +143,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
             if (currTime - startTime > boundaryValue && !longTapOver)
             {
-                Debug.Log("Loong tap");
+              //  Debug.Log("Loong tap");
                 longTapOver = true;
                 startTime = 0;
                 currTime = 0;
@@ -281,7 +281,6 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
             sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
         }
 
-        Debug.Log("fmc 280 "+gameMoldel);
         sceneController.TestDrive(gameMoldel);
     }
 

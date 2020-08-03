@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\ARSessionOrigin.cs" />
     <Compile Include="Assets\BtnSwitchLang.cs" />
     <Compile Include="Assets\CarController.cs" />
     <Compile Include="Assets\ContentController.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Assets\Slider.cs" />
     <Compile Include="Assets\SteeringWheel.cs" />
     <Compile Include="Assets\Test.cs" />
+    <Compile Include="Assets\TransformExtensions.cs" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\PlaneGrid.shader" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\MobileDiffuseWithLightEstimation.shader" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARBackground.shader" />
