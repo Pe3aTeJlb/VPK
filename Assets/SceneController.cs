@@ -272,6 +272,9 @@ public class SceneController : MonoBehaviour
         terrain = Instantiate(terrainPrefab, lastAnchor.transform.position, Quaternion.identity);
         terrain.transform.parent = lastAnchor.transform;
 
+        Debug.LogWarning(gameCar.transform.position);
+        Debug.LogWarning(terrain.transform.position);
+
     }
 
     public void HideModel()
