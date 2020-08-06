@@ -10,6 +10,7 @@ public class ItemDragHandler : MonoBehaviour, IDragHandler, IEndDragHandler, IPo
     private Vector3 originPos;
     private Vector2 touchStartPos, currTouchPos;
 
+    [HideInInspector]
     public GameObject prefab;
 
     private bool isPointerOver;

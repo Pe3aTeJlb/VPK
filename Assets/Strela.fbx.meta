@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 4759c26a8acfc4143a0f6737e54ea0b2
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Back door
+    100002: Body
+    100004: Bumper
+    100006: Footrests
+    100008: Headlights
+    100010: Hood
+    100012: Left back door
+    100014: Left back wheel
+    100016: Left front door
+    100018: Left front wheel
+    100020: Luke
+    100022: Panel
+    100024: Radiator
+    100026: Rear lights
+    100028: Right back door
+    100030: Right back wheel
+    100032: Right front door
+    100034: Right front wheel
+    100036: Salon
+    100038: Seats
+    100040: Snorkel
+    100042: Spare wheel
+    100044: //RootNode
+    100046: Suspension
+    100048: Turn Signals
+    100050: Wipers
+    400000: Back door
+    400002: Body
+    400004: Bumper
+    400006: Footrests
+    400008: Headlights
+    400010: Hood
+    400012: Left back door
+    400014: Left back wheel
+    400016: Left front door
+    400018: Left front wheel
+    400020: Luke
+    400022: Panel
+    400024: Radiator
+    400026: Rear lights
+    400028: Right back door
+    400030: Right back wheel
+    400032: Right front door
+    400034: Right front wheel
+    400036: Salon
+    400038: Seats
+    400040: Snorkel
+    400042: Spare wheel
+    400044: //RootNode
+    400046: Suspension
+    400048: Turn Signals
+    400050: Wipers
+    2100000: Rear Light
+    2100002: Light
+    2100004: Khaki
+    2100006: Body
+    2100008: Salon
+    2100010: Matt Metall
+    2100012: Window
+    2100014: Turn Signals
+    2100016: Chromium
+    2100018: Dark Metall
+    2100020: Rubber
+    2100022: Suspension
+    2300000: Back door
+    2300002: Body
+    2300004: Bumper
+    2300006: Footrests
+    2300008: Headlights
+    2300010: Hood
+    2300012: Left back door
+    2300014: Left back wheel
+    2300016: Left front door
+    2300018: Left front wheel
+    2300020: Luke
+    2300022: Panel
+    2300024: Radiator
+    2300026: Rear lights
+    2300028: Right back door
+    2300030: Right back wheel
+    2300032: Right front door
+    2300034: Right front wheel
+    2300036: Salon
+    2300038: Seats
+    2300040: Snorkel
+    2300042: Spare wheel
+    2300044: Suspension
+    2300046: Turn Signals
+    2300048: Wipers
+    3300000: Back door
+    3300002: Body
+    3300004: Bumper
+    3300006: Footrests
+    3300008: Headlights
+    3300010: Hood
+    3300012: Left back door
+    3300014: Left back wheel
+    3300016: Left front door
+    3300018: Left front wheel
+    3300020: Luke
+    3300022: Panel
+    3300024: Radiator
+    3300026: Rear lights
+    3300028: Right back door
+    3300030: Right back wheel
+    3300032: Right front door
+    3300034: Right front wheel
+    3300036: Salon
+    3300038: Seats
+    3300040: Snorkel
+    3300042: Spare wheel
+    3300044: Suspension
+    3300046: Turn Signals
+    3300048: Wipers
+    4300000: Rear lights
+    4300002: Radiator
+    4300004: Back door
+    4300006: Body
+    4300008: Salon
+    4300010: Headlights
+    4300012: Turn Signals
+    4300014: Bumper
+    4300016: Footrests
+    4300018: Panel
+    4300020: Wipers
+    4300022: Seats
+    4300024: Luke
+    4300026: Right front door
+    4300028: Left front door
+    4300030: Left back door
+    4300032: Right back door
+    4300034: Spare wheel
+    4300036: Left front wheel
+    4300038: Left back wheel
+    4300040: Right front wheel
+    4300042: Right back wheel
+    4300044: Suspension
+    4300046: Snorkel
+    4300048: Hood
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

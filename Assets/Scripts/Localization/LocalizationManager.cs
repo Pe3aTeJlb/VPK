@@ -7,7 +7,6 @@ using System.Collections;
 
 public class LocalizationManager : MonoBehaviour
 {
-    public LocalizationManager instance;
 
     private string currentLanguage;
     private Dictionary<string, string> localizedText;

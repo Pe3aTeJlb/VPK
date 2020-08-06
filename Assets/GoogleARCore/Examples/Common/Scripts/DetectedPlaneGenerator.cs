@@ -68,6 +68,7 @@ namespace GoogleARCore.Examples.Common
                 planeObjectVisualizer.Initialize(m_NewPlanes[i]);
                 
                 allPlaneObjects.Add(planeObjectVisualizer);
+                
 
                 if (hideNewPlanes) { planeObjectVisualizer.m_MeshRenderer.enabled = false; }
                 else { planeObjectVisualizer.m_MeshRenderer.enabled = true; }
@@ -90,8 +91,59 @@ namespace GoogleARCore.Examples.Common
 
         public void CreateCollider() 
         {
-                    
+            foreach (DetectedPlaneVisualizer dpv in allPlaneObjects) 
+            {
+                if (!dpv.gameObject.AddComponent<MeshCollider>())
+                {
+                    dpv.gameObject.AddComponent<MeshCollider>();
+                    dpv.GetComponent<MeshCollider>().sharedMesh = dpv.m_Mesh;
+                }
+                else 
+                {
+                    dpv.GetComponent<MeshCollider>().enabled = true;
+                    dpv.GetComponent<MeshCollider>().sharedMesh = dpv.m_Mesh;
+                }
+            }
+
         }
 
+        public void RemoveAllCollider()
+        {
+            foreach (DetectedPlaneVisualizer dpv in allPlaneObjects)
+            {
+                dpv.GetComponent<MeshCollider>().enabled = false;
+            }
+        }
+
+        public DetectedPlane GetMaxAreaPlane(float minX, float minZ) 
+        {
+            DetectedPlane resultPlane = allPlaneObjects[0].m_DetectedPlane;
+            float resultPlaneArea = resultPlane.ExtentX * resultPlane.ExtentZ;
+
+            for (int i = 1; i < allPlaneObjects.Count; i++) 
+            {
+                float buffArea = allPlaneObjects[i].m_DetectedPlane.ExtentX * allPlaneObjects[i].m_DetectedPlane.ExtentZ;
+
+                if (buffArea > resultPlaneArea) 
+                {
+                    resultPlane = allPlaneObjects[i].m_DetectedPlane;
+                    resultPlaneArea = buffArea;
+                }
+
+            }
+
+            Debug.LogWarning(resultPlane.ExtentX);
+            Debug.LogWarning(resultPlane.ExtentZ);
+
+            if (resultPlane.ExtentX >= minX && resultPlane.ExtentZ >= minZ)
+            {
+                return resultPlane;
+            }
+            else { return null; }
+        }
+
+
+
     }
+
 }

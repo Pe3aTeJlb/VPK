@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\ARSessionOrigin.cs" />
     <Compile Include="Assets\BtnSwitchLang.cs" />
     <Compile Include="Assets\CarController.cs" />
     <Compile Include="Assets\ContentController.cs" />
@@ -262,16 +261,17 @@
     <Compile Include="Assets\ItemDragHandler.cs" />
     <Compile Include="Assets\LocalizedText.cs" />
     <Compile Include="Assets\SceneController.cs" />
+    <Compile Include="Assets\Scripts\ARSessionOrigin.cs" />
     <Compile Include="Assets\Scripts\CalculateCanvasScale.cs" />
     <Compile Include="Assets\Scripts\CalculateCanvasScaleEditor.cs" />
+    <Compile Include="Assets\Scripts\CarControl\SteeringWheel.cs" />
     <Compile Include="Assets\Scripts\Localization\LocalizationData.cs" />
     <Compile Include="Assets\Scripts\Localization\LocalizationManager.cs" />
+    <Compile Include="Assets\Scripts\TransformExtensions.cs" />
     <Compile Include="Assets\Scripts\UIButtonInfo.cs" />
     <Compile Include="Assets\SimpleCarController.cs" />
     <Compile Include="Assets\Slider.cs" />
-    <Compile Include="Assets\SteeringWheel.cs" />
     <Compile Include="Assets\Test.cs" />
-    <Compile Include="Assets\TransformExtensions.cs" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\PlaneGrid.shader" />
     <None Include="Assets\GoogleARCore\Examples\Common\Materials\Shaders\MobileDiffuseWithLightEstimation.shader" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARBackground.shader" />

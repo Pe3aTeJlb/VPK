@@ -7,43 +7,52 @@ using System.Collections.Generic;
 
 public class SceneController : MonoBehaviour
 {
-    public GameObject arRoot;
-    public Camera firstPersonCamera;
-    public GameObject cam;
-    public PhysicsRaycaster rayCaster;
+    //корень ar камеры. Обязательно содержит саму камеру и физический рейкастер
+    private GameObject arRoot;
+    private Camera firstPersonCamera;
+    private GameObject cam;
+    private PhysicsRaycaster rayCaster;
 
+    //последний найденный якорь
     private Anchor lastAnchor;
     private TrackableHit lastHit;
 
+    //поля для создания модели
     private GameObject Model;
     private GameObject Car;
     private GameObject gameCar;
     private bool alreadyInstantiated = false;
     private bool tracking;
 
-    public GameObject terrainPrefab;
-    private GameObject terrain;
-
     private int currModelsCount = 0;
     private readonly int maxModelsCount = 10; // set max amount of models in the scene
+    private List<GameObject> models = new List<GameObject>();
 
-    public DepthMenu DepthMenu;
+    //поля для игры
+    public GameObject terrainPrefab;
+    private GameObject terrain;
+    private DetectedPlane gamePlane;
 
     public Canvas carControl;
+
+    // масштабирование игры
+    public UnityEngine.UI.Slider s;
+    private ARSessionOrigin sessionOrigin;
+    public GameObject referenseToScale;
+
+    private DepthMenu DepthMenu;
+    private DetectedPlaneGenerator planeGenerator;
+    
+
     public GameObject contentPanel;
 
-    public DetectedPlaneGenerator planeGenerator;
-
-    public bool kostil;
+    private bool kostil;
     public Text fps;
-
-    private List<GameObject> models = new List<GameObject>();
 
     public GameObject backToExposition;
 
-    public UnityEngine.UI.Slider s;
-    public ARSessionOrigin sessionOrigin;
-    public GameObject referenseToScale;
+    private bool detectingGameArea = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +60,17 @@ public class SceneController : MonoBehaviour
         Application.targetFrameRate = 30;
         Screen.orientation = ScreenOrientation.Landscape;
         QuitOnConnectionErrors();
+
+        arRoot = GameObject.FindGameObjectWithTag("arRoot");
+        firstPersonCamera = Camera.main;
+        cam = firstPersonCamera.gameObject;
+        rayCaster = cam.GetComponent<PhysicsRaycaster>();
+
+        DepthMenu = GameObject.FindGameObjectWithTag("DepthMenu").GetComponent<DepthMenu>();
+        planeGenerator = GetComponent<DetectedPlaneGenerator>();
+
+        sessionOrigin = arRoot.GetComponent<ARSessionOrigin>();
+
         Car = null;
 
         contentPanel.SetActive(false);
@@ -82,26 +102,28 @@ public class SceneController : MonoBehaviour
         //я не знаю как лучше развернуть моедль в направлении камеры
         if (kostil) 
         {
-            Car.transform.LookAt(new Vector3(cam.transform.position.x, Car.transform.position.y, cam.transform.position.z));
+            Car.transform.LookAt(new Vector3(-cam.transform.position.x, Car.transform.position.y, -cam.transform.position.z));
             kostil = false;
+        }
+
+        if (detectingGameArea) {
+
+            gamePlane = planeGenerator.GetMaxAreaPlane(2, 2);
 
         }
 
-        Debug.LogWarning(cam.transform.localScale);
-        //cam.transform.localScale = new Vector3(s.value, s.value, s.value);
-        
     }
 
     public void setScale() {
 
-
+        Debug.LogError(s.value);
         sessionOrigin.MakeContentAppearAt(
            referenseToScale.transform,
            referenseToScale.transform.position,
            referenseToScale.transform.rotation);
 
         arRoot.transform.localScale = new Vector3(s.value, s.value, s.value);
-        //cam.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, -s.value);
+        
     }
    
     public void SetModelByIndex(GameObject newModel)
@@ -210,8 +232,6 @@ public class SceneController : MonoBehaviour
             Car.transform.parent = lastAnchor.transform;
             Car.SetActive(true);
 
-            //Car.GetComponentInChildren<FloatMenuController>().enabled = true;
-
             alreadyInstantiated = false;
 
             models.Add(Car);
@@ -231,6 +251,7 @@ public class SceneController : MonoBehaviour
     public void EnableContentPanel() 
     {
         contentPanel.SetActive(true);
+        //contentPanel.GetComponent<Slider>().ShowContentPanel();
     }
 
     public void Exposition() 
@@ -253,18 +274,39 @@ public class SceneController : MonoBehaviour
     //Prepare game mode 
     public void TestDrive(GameObject gameModel) {
 
+        /*
+        gamePlane = planeGenerator.GetMaxAreaPlane(2, 2);
+
+        if (gamePlane == null) 
+        {
+            planeGenerator.hideNewPlanes = false;
+            planeGenerator.ShowAllPlanes();
+            planeGenerator.enabled = true;
+
+            detectingGameArea = true;
+
+        }
+        else 
+        {
+
+
+        }
+        */
+
+
+
         backToExposition.SetActive(true);
         contentPanel.SetActive(false);
 
         Model = gameModel;
 
-        foreach (GameObject model in models) 
+        foreach (GameObject model in models)
         {
             model.SetActive(false);
         }
 
         carControl.enabled = true;
-      
+
         gameCar = Instantiate(gameModel, lastAnchor.transform.position, Quaternion.identity);
         gameCar.transform.parent = lastAnchor.transform;
         gameCar.transform.Rotate(Vector3.up, 180);
@@ -272,8 +314,8 @@ public class SceneController : MonoBehaviour
         terrain = Instantiate(terrainPrefab, lastAnchor.transform.position, Quaternion.identity);
         terrain.transform.parent = lastAnchor.transform;
 
-        Debug.LogWarning(gameCar.transform.position);
-        Debug.LogWarning(terrain.transform.position);
+        // Debug.LogWarning(gameCar.transform.position);
+        //  Debug.LogWarning(terrain.transform.position);
 
     }
 

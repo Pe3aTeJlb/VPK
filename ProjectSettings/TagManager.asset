@@ -13,6 +13,9 @@ TagManager:
   - LocalizationManager
   - Model
   - Spawn
+  - arRoot
+  - DepthMenu
+  - PlaneDiscovery
   layers:
   - Default
   - TransparentFX

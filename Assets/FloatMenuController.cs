@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -8,6 +9,9 @@ public class Annotation
 {
     public GameObject uiElement;
     public GameObject targetPoint;
+    [Range(0,3)]
+    [Description("ClockWise. 0 - lower-left corner")]
+    public int AncorCornernIndex;
 }
 
 public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointerDownHandler
@@ -118,7 +122,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
                     ui.GetWorldCorners(buff);
 
-                    buffLine.SetPositions(new Vector3[] { buff[3], an.targetPoint.transform.position });
+                    buffLine.SetPositions(new Vector3[] { buff[an.AncorCornernIndex], an.targetPoint.transform.position });
             }
 
         }
@@ -143,7 +147,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
             if (currTime - startTime > boundaryValue && !longTapOver)
             {
-              //  Debug.Log("Loong tap");
+                Debug.Log("Loong tap");
                 longTapOver = true;
                 startTime = 0;
                 currTime = 0;
@@ -248,7 +252,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
                 ui.GetWorldCorners(buff);
 
-                buffLine.SetPositions(new Vector3[] { buff[3], an.targetPoint.transform.position});
+                buffLine.SetPositions(new Vector3[] { buff[an.AncorCornernIndex], an.targetPoint.transform.position});
 
                 buffLine.startWidth = lineWidth;
                 buffLine.endWidth = lineWidth;

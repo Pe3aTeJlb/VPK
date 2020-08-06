@@ -29,7 +29,7 @@ namespace GoogleARCore.Examples.Common
     /// </summary>
     public class DetectedPlaneVisualizer : MonoBehaviour
     {
-        private DetectedPlane m_DetectedPlane;
+        public DetectedPlane m_DetectedPlane;
 
         // Keep previous frame's mesh polygon to avoid mesh update every frame.
         private List<Vector3> m_PreviousFrameMeshVertices = new List<Vector3>();
@@ -40,11 +40,10 @@ namespace GoogleARCore.Examples.Common
 
         private List<int> m_MeshIndices = new List<int>();
 
-        private Mesh m_Mesh;
+        public Mesh m_Mesh;
 
         public MeshRenderer m_MeshRenderer;
 
-       // private MeshCollider ar_meshCollider;
 
         /// <summary>
         /// The Unity Awake() method.
@@ -53,8 +52,6 @@ namespace GoogleARCore.Examples.Common
         {
             m_Mesh = GetComponent<MeshFilter>().mesh;
             m_MeshRenderer = GetComponent<UnityEngine.MeshRenderer>();
-           // this.gameObject.AddComponent<MeshCollider>();
-           // ar_meshCollider = GetComponent<MeshCollider>();
         }
 
         /// <summary>
@@ -189,7 +186,6 @@ namespace GoogleARCore.Examples.Common
             m_Mesh.SetTriangles(m_MeshIndices, 0);
             m_Mesh.SetColors(m_MeshColors);
 
-           // ar_meshCollider.sharedMesh = m_Mesh;
         }
 
         private bool _AreVerticesListsEqual(List<Vector3> firstList, List<Vector3> secondList)
