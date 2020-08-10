@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UI;
-using System;
 
 [System.Serializable]
 public class AxleInfo
@@ -32,8 +30,10 @@ public class SimpleCarController : MonoBehaviour
 	[Tooltip("In this class, you can adjust all vehicle sounds, and the preferences of each.")]
 	public VehicleSoundsClassFree _sounds;
 
+	[HideInInspector]
 	public UIButtonInfo up, down, brake;
-    public SteeringWheel stWheelController;
+	[HideInInspector]
+	public SteeringWheel stWheelController;
 	public int gearRatio;
 	public int maxSteeringAngle;
 

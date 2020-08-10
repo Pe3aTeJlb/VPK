@@ -63,7 +63,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GoogleARCore\Examples\Common\Scripts\Editor\PointcloudVisualizerEditor.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\Editor\InstantPreviewBugReport.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\Editor\Analytics\ArcoreClearcut.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\Editor\Analytics\ArcoreSdkLog.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\Editor\LogRequestUtils.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\Editor\PreprocessBuildBase.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\Editor\RequiredOptionalPreprocessBuild.cs" />
+    <Compile Include="Assets\Scripts\AR Core\Editor\PointcloudVisualizerEditor.cs" />
     <None Include="Assets\GoogleARCore\Editor\ARCoreiOSDependencies.template" />
     <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver_v1.2.122.0.txt" />
     <Reference Include="Unity.TextMeshPro.Editor">

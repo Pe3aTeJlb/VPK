@@ -10,15 +10,18 @@ public class Slider : MonoBehaviour
     private Vector2 touchStartPos;
     private Vector2 targetPos;
     private float paneltHeight;
-    public float hoverHeight;
+    private float hoverHeight;
 
     private RectTransform contentPanel;
 
+    [Tooltip("How many pixel you have to swipe to trigger event")]
     public float operatingThreshold;
 
     void Start()
     {
         hover = this.transform as RectTransform;
+        hoverHeight = hover.sizeDelta.y;
+
         contentPanel = GetComponentInChildren<ScrollRect>().transform as RectTransform;
 
         paneltHeight = contentPanel.sizeDelta.y + hoverHeight;

@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class SteeringWheel : MonoBehaviour
 {
-    public Graphic UI_Element;
+    private Graphic UI_Element;
 
     RectTransform rectT;
     Vector2 centerPoint;

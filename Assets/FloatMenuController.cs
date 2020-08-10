@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Annotation
@@ -18,16 +19,20 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 {
     public List<Annotation> annotations;
 
-    public GameObject gameMoldel;
-    
+    [Space(10)]
     private GameObject root; // the root
     public Transform Model; // the mesh
+    public GameObject gameMoldel;
+    public GameObject terrain;
 
     private Camera cam;
 
+    [Space(10)]
     public Canvas menu;
-    public LocalizedText annotationButton; //annotation enable button/ needs to change text 
+    public Text annotationButton; //annotation enable button/ needs to change text
+    private LocalizationManager localizationManager;
 
+    [Space(10)]
     private bool annotationIsOpen;
     private LineRenderer buffLine;
     private Vector3[] buff = new Vector3[4];
@@ -62,6 +67,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
         Application.targetFrameRate = 60;
 
         sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
+        localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
 
         cam = Camera.main;
 
@@ -78,15 +84,6 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        /*
-        int taps = eventData.clickCount;
-        Debug.Log(taps);
-        if (taps == 2)
-        {
-            Debug.Log("Double click on model");
-            transformModel = !transformModel;
-        }
-        */
         clickCounter++;
         firstClickTime = Time.time;
         StartCoroutine(DoubleClickDetection());
@@ -185,9 +182,9 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
                 if (Input.touchCount == 1)
                 {
-
+                   
                     rotation += transform.localEulerAngles.y + Input.GetTouch(0).deltaPosition.x * -screwSense / 20;
-                    Model.transform.localEulerAngles = new Vector3(0, rotation, 0);
+                    Model.transform.eulerAngles = new Vector3(0, rotation, 0);
 
                 }
 
@@ -210,8 +207,8 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
 
                 if (Input.GetKey(KeyCode.Mouse0))
                 {
-                    rotation += Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
-                    Model.localEulerAngles = new Vector3(0, rotation, 0);
+                    rotation = Model.localEulerAngles.y + Input.GetAxis("Mouse X") * -screwSense;
+                    Model.transform.localEulerAngles = new Vector3(0, rotation, 0);
                 }
 
             }
@@ -234,7 +231,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
     {
         if (!annotationIsOpen)
         {
-            annotationButton.key = "RemoveAnotation";
+            annotationButton.text = localizationManager.GetLocalizedValue("RemoveAnotation");
 
             annotationIsOpen = true;
 
@@ -261,7 +258,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
         }
         else
         {
-            annotationButton.key = "DrawAnotation";
+            annotationButton.text = localizationManager.GetLocalizedValue("DrawAnotation");
 
             annotationIsOpen = false;
 
@@ -285,7 +282,7 @@ public class FloatMenuController : MonoBehaviour, IPointerClickHandler, IPointer
             sceneController = GameObject.FindGameObjectWithTag("SceneController").GetComponent<SceneController>();
         }
 
-        sceneController.TestDrive(gameMoldel);
+        sceneController.TestDrive(gameMoldel, terrain);
     }
 
     public void RemoveModel()

@@ -17,6 +17,10 @@ public class SceneController : MonoBehaviour
     private Anchor lastAnchor;
     private TrackableHit lastHit;
 
+    //UI элементы
+    public GameObject contentPanel;
+    public GameObject backToExposition;
+
     //поля для создания модели
     private GameObject Model;
     private GameObject Car;
@@ -28,30 +32,34 @@ public class SceneController : MonoBehaviour
     private readonly int maxModelsCount = 10; // set max amount of models in the scene
     private List<GameObject> models = new List<GameObject>();
 
+    private bool rotateInstance;
+
     //поля для игры
-    public GameObject terrainPrefab;
+    public Canvas carControl;
+
+    private GameObject terrainPrefab;
     private GameObject terrain;
     private DetectedPlane gamePlane;
 
-    public Canvas carControl;
-
     // масштабирование игры
-    public UnityEngine.UI.Slider s;
+    //public UnityEngine.UI.Slider s;
     private ARSessionOrigin sessionOrigin;
     public GameObject referenseToScale;
 
     private DepthMenu DepthMenu;
     private DetectedPlaneGenerator planeGenerator;
-    
+   
 
-    public GameObject contentPanel;
-
-    private bool kostil;
-    public Text fps;
-
-    public GameObject backToExposition;
+    //public Text fps;
 
     private bool detectingGameArea = false;
+    private float areaWidth = 2;
+
+    //Для быстрого прототипирования стоит сделать возможность простого отключения режима презентации, т.е. после запуска мы сразу ищем необходимую площадку.
+    [Space(10)]
+    public bool skipPresentation;
+    public GameObject gameModel;
+    public GameObject gameTerrain;
 
 
     // Start is called before the first frame update
@@ -59,6 +67,7 @@ public class SceneController : MonoBehaviour
     {
         Application.targetFrameRate = 30;
         Screen.orientation = ScreenOrientation.Landscape;
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         QuitOnConnectionErrors();
 
         arRoot = GameObject.FindGameObjectWithTag("arRoot");
@@ -75,12 +84,21 @@ public class SceneController : MonoBehaviour
 
         contentPanel.SetActive(false);
         backToExposition.SetActive(false);
+
+        if (skipPresentation) 
+        {
+            Model = gameModel;
+            terrain = gameTerrain;
+
+            //areaWidth = 
+        }
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        fps.text = "" + 1 / Time.deltaTime;
+        //fps.text = "" + 1 / Time.deltaTime;
 
         if (DepthMenu != null && !DepthMenu.CanPlaceAsset())
         {
@@ -94,35 +112,44 @@ public class SceneController : MonoBehaviour
             Screen.sleepTimeout = lostTrackingSleepTimeout;
             return;
         }
-        Screen.sleepTimeout = SleepTimeout.NeverSleep;
-
-        ProcessTouches();
-
-
+       
         //я не знаю как лучше развернуть моедль в направлении камеры
-        if (kostil) 
+        if (rotateInstance) 
         {
-            Car.transform.LookAt(new Vector3(-cam.transform.position.x, Car.transform.position.y, -cam.transform.position.z));
-            kostil = false;
+            // Determine which direction to rotate towards
+            Vector3 targetDirection = cam.transform.position - Car.transform.position;
+            targetDirection.y = 0;
+
+            // The step size is equal to speed times frame time.
+            float singleStep = 3 * Time.deltaTime;
+
+            // Rotate the forward vector towards the target direction by one step
+            Vector3 newDirection = Vector3.RotateTowards(Car.transform.forward, targetDirection, singleStep, 0.0f);
+
+            // Calculate a rotation a step closer to the target and applies rotation to this object
+            Car.transform.rotation = Quaternion.LookRotation(newDirection);
+
+            ProcessTouches();
+
         }
 
-        if (detectingGameArea) {
+        if (detectingGameArea || skipPresentation) {
 
-            gamePlane = planeGenerator.GetMaxAreaPlane(2, 2);
+            gamePlane = planeGenerator.GetMaxAreaPlane(areaWidth, areaWidth);
 
         }
 
     }
 
-    public void setScale() {
+    public void setScale(float scale) {
 
-        Debug.LogError(s.value);
+        //Debug.LogError(s.value);
         sessionOrigin.MakeContentAppearAt(
            referenseToScale.transform,
            referenseToScale.transform.position,
            referenseToScale.transform.rotation);
 
-        arRoot.transform.localScale = new Vector3(s.value, s.value, s.value);
+        arRoot.transform.localScale = new Vector3(scale, scale, scale);
         
     }
    
@@ -141,9 +168,12 @@ public class SceneController : MonoBehaviour
 
             rayCaster.enabled = false;
 
-            Car = Instantiate(Model, Vector3.zero, Quaternion.identity);
 
-            kostil = true;
+            Vector3 v = new Vector3(0,cam.transform.rotation.y+180,0);
+            Car = Instantiate(Model, Vector3.zero, Quaternion.Euler(v));
+            // Car.transform.localEulerAngles = new Vector3(0, Car.transform.localEulerAngles.y, 0);
+
+            rotateInstance = true;
             
             Car.SetActive(false);
 
@@ -245,17 +275,20 @@ public class SceneController : MonoBehaviour
             planeGenerator.hideNewPlanes = true;
             planeGenerator.HideAllPlanes();
             planeGenerator.enabled = false;
+
+            rotateInstance = false;
         }
     }
 
     public void EnableContentPanel() 
     {
-        contentPanel.SetActive(true);
-        //contentPanel.GetComponent<Slider>().ShowContentPanel();
+        if(!skipPresentation)contentPanel.SetActive(true);
     }
 
     public void Exposition() 
     {
+        setScale(1f);
+
         backToExposition.SetActive(false);
 
         Destroy(gameCar);
@@ -272,7 +305,7 @@ public class SceneController : MonoBehaviour
     }
 
     //Prepare game mode 
-    public void TestDrive(GameObject gameModel) {
+    public void TestDrive(GameObject gameModel, GameObject gamePrefab) {
 
         /*
         gamePlane = planeGenerator.GetMaxAreaPlane(2, 2);
@@ -293,12 +326,13 @@ public class SceneController : MonoBehaviour
         }
         */
 
-
+        setScale(13.5f);
 
         backToExposition.SetActive(true);
         contentPanel.SetActive(false);
 
         Model = gameModel;
+        terrainPrefab = gamePrefab;
 
         foreach (GameObject model in models)
         {
@@ -313,9 +347,6 @@ public class SceneController : MonoBehaviour
 
         terrain = Instantiate(terrainPrefab, lastAnchor.transform.position, Quaternion.identity);
         terrain.transform.parent = lastAnchor.transform;
-
-        // Debug.LogWarning(gameCar.transform.position);
-        //  Debug.LogWarning(terrain.transform.position);
 
     }
 
