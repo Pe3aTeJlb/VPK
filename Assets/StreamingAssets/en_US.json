@@ -99,6 +99,14 @@
 		{
 			"key": "removeModel",
 			"value": "Remove Model"
+		},
+		{
+			"key": "Meters",
+			"value": "meters"
+		},
+		{
+			"key": "GetAreaXbyY",
+			"value": "Find an area"
 		}
 	]
 }

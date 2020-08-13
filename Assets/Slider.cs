@@ -68,7 +68,12 @@ public class Slider : MonoBehaviour
 
     public void ShowContentPanel()
     {
-        targetPos = new Vector2(0,0);
+        targetPos = new Vector2(0, 0);
+    }
+
+    public void HideContentPanel()
+    {
+        targetPos = new Vector2(0, paneltHeight - hoverHeight);
     }
 
 }

@@ -20,6 +20,11 @@ public class SceneController : MonoBehaviour
     //UI элементы
     public GameObject contentPanel;
     public GameObject backToExposition;
+    public GameObject SnackBar;
+    public Text SnackBarText;
+    public GameObject HelpButton;
+    public GameObject Help;
+    //public Text fps;
 
     //поля для создания модели
     private GameObject Model;
@@ -42,18 +47,17 @@ public class SceneController : MonoBehaviour
     private DetectedPlane gamePlane;
 
     // масштабирование игры
-    //public UnityEngine.UI.Slider s;
     private ARSessionOrigin sessionOrigin;
     public GameObject referenseToScale;
 
+    private bool detectingGameArea = false;
+    public float areaWidth = 4;
+    public float areaLength = 4;
+
+    //Остальные скрипты
     private DepthMenu DepthMenu;
     private DetectedPlaneGenerator planeGenerator;
-   
-
-    //public Text fps;
-
-    private bool detectingGameArea = false;
-    private float areaWidth = 2;
+    private LocalizationManager localizationManager;
 
     //Для быстрого прототипирования стоит сделать возможность простого отключения режима презентации, т.е. после запуска мы сразу ищем необходимую площадку.
     [Space(10)]
@@ -77,6 +81,7 @@ public class SceneController : MonoBehaviour
 
         DepthMenu = GameObject.FindGameObjectWithTag("DepthMenu").GetComponent<DepthMenu>();
         planeGenerator = GetComponent<DetectedPlaneGenerator>();
+        localizationManager = GameObject.FindGameObjectWithTag("LocalizationManager").GetComponent<LocalizationManager>();
 
         sessionOrigin = arRoot.GetComponent<ARSessionOrigin>();
 
@@ -84,6 +89,8 @@ public class SceneController : MonoBehaviour
 
         contentPanel.SetActive(false);
         backToExposition.SetActive(false);
+        SnackBar.SetActive(false);
+        HelpButton.SetActive(false);
 
         if (skipPresentation) 
         {
@@ -135,7 +142,8 @@ public class SceneController : MonoBehaviour
 
         if (detectingGameArea || skipPresentation) {
 
-            gamePlane = planeGenerator.GetMaxAreaPlane(areaWidth, areaWidth);
+            gamePlane = planeGenerator.GetMaxAreaPlane(areaWidth, areaLength);
+            if (gamePlane != null) { TestDrive(Model, terrainPrefab); }
 
         }
 
@@ -277,22 +285,26 @@ public class SceneController : MonoBehaviour
             planeGenerator.enabled = false;
 
             rotateInstance = false;
-        }
-    }
 
-    public void EnableContentPanel() 
-    {
-        if(!skipPresentation)contentPanel.SetActive(true);
+            Exposition();
+        }
     }
 
     public void Exposition() 
     {
         setScale(1f);
 
+        SnackBar.SetActive(false);
         backToExposition.SetActive(false);
+        HelpButton.SetActive(true);
 
         Destroy(gameCar);
         Destroy(terrain);
+
+
+        planeGenerator.hideNewPlanes = true;
+        planeGenerator.HideAllPlanes();
+        planeGenerator.enabled = false;
 
         foreach (GameObject model in models)
         {
@@ -307,11 +319,31 @@ public class SceneController : MonoBehaviour
     //Prepare game mode 
     public void TestDrive(GameObject gameModel, GameObject gamePrefab) {
 
-        /*
-        gamePlane = planeGenerator.GetMaxAreaPlane(2, 2);
+        HelpButton.SetActive(false);
+
+        if(!skipPresentation)backToExposition.SetActive(true);
+        contentPanel.SetActive(false);
+
+        Model = gameModel;
+        terrainPrefab = gamePrefab;
+
+        Debug.LogError(terrainPrefab.GetComponent<Collider>().bounds.size);
+        //areaWidth = terrainPrefab.GetComponent<Collider>().bounds.size.x;
+        //areaLength = terrainPrefab.GetComponent<Collider>().bounds.size.y;
+
+        gamePlane = planeGenerator.GetMaxAreaPlane(areaWidth, areaLength);
+
+
+        foreach (GameObject model in models)
+        {
+            model.SetActive(false);
+        }
 
         if (gamePlane == null) 
         {
+            SnackBar.SetActive(true);
+            SnackBarText.text = localizationManager.GetLocalizedValue("GetAreaXbyY") + " " + areaWidth + "x" + areaLength + " " + localizationManager.GetLocalizedValue("Meters");
+
             planeGenerator.hideNewPlanes = false;
             planeGenerator.ShowAllPlanes();
             planeGenerator.enabled = true;
@@ -321,23 +353,27 @@ public class SceneController : MonoBehaviour
         }
         else 
         {
+            detectingGameArea = false;
 
+            SnackBar.SetActive(false);
+
+            setScale(13.5f);
+
+            carControl.enabled = true;
+
+            lastAnchor = lastHit.Trackable.CreateAnchor(gamePlane.CenterPose);
+
+            terrain = Instantiate(terrainPrefab, gamePlane.CenterPose.position, Quaternion.identity);
+            terrain.transform.parent = lastAnchor.transform;
+
+            gameCar = Instantiate(gameModel, GameObject.FindGameObjectWithTag("Spawn").transform.position, Quaternion.identity);
+            gameCar.transform.parent = lastAnchor.transform;
+            gameCar.transform.Rotate(Vector3.up, 180);
 
         }
-        */
-
+        
+        /*
         setScale(13.5f);
-
-        backToExposition.SetActive(true);
-        contentPanel.SetActive(false);
-
-        Model = gameModel;
-        terrainPrefab = gamePrefab;
-
-        foreach (GameObject model in models)
-        {
-            model.SetActive(false);
-        }
 
         carControl.enabled = true;
 
@@ -347,7 +383,22 @@ public class SceneController : MonoBehaviour
 
         terrain = Instantiate(terrainPrefab, lastAnchor.transform.position, Quaternion.identity);
         terrain.transform.parent = lastAnchor.transform;
+        */
 
+    }
+
+    public void EnableContentPanel()
+    {
+        if (!skipPresentation) contentPanel.SetActive(true);
+    }
+
+    public void ShowHelpPanel() 
+    {
+        Help.SetActive(true);
+    }
+
+    public void HideHelpPanel(){
+        Help.SetActive(false);
     }
 
     public void HideModel()
@@ -375,24 +426,6 @@ public class SceneController : MonoBehaviour
         }
 
     }
-
-    void QuitOnConnectionErrors()
-    {
-        // Quit if ARCore was unable to connect and give Unity some time for the toast to
-        // appear.
-        if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
-        {
-            //ShowAndroidToastMessage("Camera permission is needed to run this application.");
-            ShowAndroidToastMessage("Необходимо разрешение доступ к камере");
-            Invoke("Quit", 0.5f);
-        }
-        else if (Session.Status == SessionStatus.FatalError)
-        {
-            //ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
-            ShowAndroidToastMessage("ARCore столкнулся с проблемой подключения. Пожалуйста, перезапустите приложение.");
-            Invoke("Quit", 0.5f);
-        }
-    }
     
     private void ShowAndroidToastMessage(string message)
     {
@@ -413,11 +446,27 @@ public class SceneController : MonoBehaviour
         }
     }
 
+    private void QuitOnConnectionErrors()
+    {
+        // Quit if ARCore was unable to connect and give Unity some time for the toast to
+        // appear.
+        if (Session.Status == SessionStatus.ErrorPermissionNotGranted)
+        {
+            //ShowAndroidToastMessage("Camera permission is needed to run this application.");
+            ShowAndroidToastMessage("Необходимо разрешение доступ к камере");
+            Invoke("Quit", 0.5f);
+        }
+        else if (Session.Status == SessionStatus.FatalError)
+        {
+            //ShowAndroidToastMessage("ARCore encountered a problem connecting.  Please start the app again.");
+            ShowAndroidToastMessage("ARCore столкнулся с проблемой подключения. Пожалуйста, перезапустите приложение.");
+            Invoke("Quit", 0.5f);
+        }
+    }
+
     private void Quit()
     {
         Application.Quit();
     }
-
-
 
 }

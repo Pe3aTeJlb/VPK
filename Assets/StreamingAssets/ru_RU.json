@@ -99,6 +99,14 @@
 		{
 			"key": "removeModel",
 			"value": "Убрать модель"
+		},
+		{
+			"key": "Meters",
+			"value": "метров"
+		},
+		{
+			"key": "GetAreaXbyY",
+			"value": "Найдите площадку"
 		}
 	]
 }

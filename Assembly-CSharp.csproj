@@ -67,6 +67,7 @@
     <Compile Include="Assets\ContentController.cs" />
     <Compile Include="Assets\DoorController.cs" />
     <Compile Include="Assets\FloatMenuController.cs" />
+    <Compile Include="Assets\FloatUiSystemTrigger.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewInput.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewManager.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewTrackedPoseDriver.cs" />
