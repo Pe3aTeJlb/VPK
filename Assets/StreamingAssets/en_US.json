@@ -107,6 +107,14 @@
 		{
 			"key": "GetAreaXbyY",
 			"value": "Find an area"
+		},
+		{
+			"key": "СontrolGestures",
+			"value": "Сontrol gestures"
+		},
+		{
+			"key": "ARMenuControlText",
+			"value": "1. To rotate, zoom in, or zoom out a model, double-click on it./n/n2. To enable the AR menu, click and hold your finger on the model."
 		}
 	]
 }

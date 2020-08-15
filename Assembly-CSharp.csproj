@@ -64,10 +64,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CarController.cs" />
-    <Compile Include="Assets\ContentController.cs" />
-    <Compile Include="Assets\DoorController.cs" />
-    <Compile Include="Assets\FloatMenuController.cs" />
-    <Compile Include="Assets\FloatUiSystemTrigger.cs" />
+    <Compile Include="Assets\Custom UI Elements\Scripts\ContentController.cs" />
+    <Compile Include="Assets\Custom UI Elements\Scripts\ItemDragHandler.cs" />
+    <Compile Include="Assets\Custom UI Elements\Scripts\Slider.cs" />
+    <Compile Include="Assets\Custom UI Elements\Scripts\UIButtonInfo.cs" />
+    <Compile Include="Assets\Float UI System\Scripts\CalculateCanvasScale.cs" />
+    <Compile Include="Assets\Float UI System\Scripts\CalculateCanvasScaleEditor.cs" />
+    <Compile Include="Assets\Float UI System\Scripts\FloatMenuController.cs" />
+    <Compile Include="Assets\Float UI System\Scripts\FloatUiSystemTrigger.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\ARSessionOrigin.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\DepthEffect.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\DepthMenu.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\DepthTexture.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\DetectedPlaneGenerator.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\DetectedPlaneVisualizer.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\PlaneDiscoveryGuide.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\PointcloudVisualizer.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\RawImageVideoPlayer.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\SafeAreaScaler.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\ShadowQuadHelper.cs" />
+    <Compile Include="Assets\GoogleARCore\Scripts\TransformExtensions.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewInput.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewManager.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\InstantPreview\Scripts\InstantPreviewTrackedPoseDriver.cs" />
@@ -207,59 +223,34 @@
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPAnchor.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPSession.cs" />
     <Compile Include="Assets\GoogleARCore\SDK\Scripts\XPTrackingState.cs" />
-    <Compile Include="Assets\ItemDragHandler.cs" />
+    <Compile Include="Assets\Localization\BtnSwitchLang.cs" />
+    <Compile Include="Assets\Localization\LocalizationData.cs" />
+    <Compile Include="Assets\Localization\LocalizationManager.cs" />
     <Compile Include="Assets\LocalizedText.cs" />
+    <Compile Include="Assets\Models\Car Control\SteeringWheel.cs" />
+    <Compile Include="Assets\Models\Strela\DoorController.cs" />
     <Compile Include="Assets\SceneController.cs" />
-    <Compile Include="Assets\Scripts\AR Core\ARSessionOrigin.cs" />
-    <Compile Include="Assets\Scripts\AR Core\DepthEffect.cs" />
-    <Compile Include="Assets\Scripts\AR Core\DepthMenu.cs" />
-    <Compile Include="Assets\Scripts\AR Core\DepthTexture.cs" />
-    <Compile Include="Assets\Scripts\AR Core\DetectedPlaneGenerator.cs" />
-    <Compile Include="Assets\Scripts\AR Core\DetectedPlaneVisualizer.cs" />
-    <Compile Include="Assets\Scripts\AR Core\PlaneDiscoveryGuide.cs" />
-    <Compile Include="Assets\Scripts\AR Core\PointcloudVisualizer.cs" />
-    <Compile Include="Assets\Scripts\AR Core\RawImageVideoPlayer.cs" />
-    <Compile Include="Assets\Scripts\AR Core\SafeAreaScaler.cs" />
-    <Compile Include="Assets\Scripts\AR Core\ShadowQuadHelper.cs" />
-    <Compile Include="Assets\Scripts\AR Core\TransformExtensions.cs" />
-    <Compile Include="Assets\Scripts\BtnSwitchLang.cs" />
-    <Compile Include="Assets\Scripts\CalculateCanvasScale.cs" />
-    <Compile Include="Assets\Scripts\CalculateCanvasScaleEditor.cs" />
-    <Compile Include="Assets\Scripts\CarControl\SteeringWheel.cs" />
-    <Compile Include="Assets\Scripts\Localization\LocalizationData.cs" />
-    <Compile Include="Assets\Scripts\Localization\LocalizationManager.cs" />
-    <Compile Include="Assets\Scripts\UIButtonInfo.cs" />
     <Compile Include="Assets\SimpleCarController.cs" />
-    <Compile Include="Assets\Slider.cs" />
     <Compile Include="Assets\Test.cs" />
-    <None Include="Assets\Materials\AR Core\Shaders\PlaneGrid.shader" />
-    <None Include="Assets\Materials\AR Core\Shaders\MobileDiffuseWithLightEstimation.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\PlaneGrid.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\MobileDiffuseWithLightEstimation.shader" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARBackground.shader" />
-    <None Include="Assets\Materials\AR Core\Shaders\TransparentShadow.shader" />
-    <None Include="Assets\Materials\AR Core\Shaders\CameraColorRampShader.shader" />
-    <None Include="Assets\Materials\AR Core\Shaders\PointCloud.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\TransparentShadow.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\CameraColorRampShader.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\PointCloud.shader" />
     <None Include="Assets\Неоднозначные вещи.txt" />
     <None Include="Assets\GoogleARCore\SDK\Materials\ARCoreDepth.cginc" />
     <None Include="Assets\Это надо прочитать.txt" />
-    <None Include="Assets\Materials\AR Core\Shaders\MobileSpecularWithLightEstimation.shader" />
-    <None Include="Assets\Materials\AR Core\Shaders\OcclusionImageEffect.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\MobileSpecularWithLightEstimation.shader" />
+    <None Include="Assets\GoogleARCore\Materials\Shaders\OcclusionImageEffect.shader" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Documents/Dennis/VPK/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
       <HintPath>D:/Documents/Dennis/VPK/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/Documents/Dennis/VPK/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>D:/Documents/Dennis/VPK/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>D:/Documents/Dennis/VPK/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.AIModule">
-      <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ARModule">
       <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.ARModule.dll</HintPath>
@@ -278,9 +269,6 @@
     </Reference>
     <Reference Include="UnityEngine.BaselibModule">
       <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.BaselibModule.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.ClothModule">
-      <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/Managed/UnityEngine/UnityEngine.CoreModule.dll</HintPath>
@@ -458,9 +446,6 @@
     </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>D:/Documents/Dennis/VPK/Assets/GoogleARCore/SDK/Plugins/Google.Protobuf.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>D:/Documents/Dennis/VPK/Library/PackageCache/com.unity.analytics@3.2.3/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>D:/Documents/Dennis/UnityEditors/2018.4.24f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

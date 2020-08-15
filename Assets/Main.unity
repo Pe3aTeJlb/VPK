@@ -1870,6 +1870,11 @@ PrefabInstance:
       propertyPath: m_Depth
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 20155940112608238, guid: c10877f7cd5764de18d46d7b777d1faa,
+        type: 3}
+      propertyPath: m_OcclusionCulling
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114451889682527732, guid: c10877f7cd5764de18d46d7b777d1faa,
         type: 3}
       propertyPath: SessionConfig
@@ -1919,7 +1924,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1591432df1b4402a888b594cd37033, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OcclusionShader: {fileID: 0}
+  OcclusionShader: {fileID: 4800000, guid: 03006dde43e7f48eeae0f4fb17f43c7e, type: 3}
   BlurSize: 20
   BlurDownsample: 2
   OcclusionTransparency: 1
@@ -2585,7 +2590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef60d4fc309a67c45bf4443923a0e1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: moreHelpText
+  key: ARMenuControlText
 --- !u!114 &773224216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2617,11 +2622,13 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "In order to start the experience, the app needs to detect a flat, horizontal
-    surface.\n\nFinding a surface works best on well-lit, textured surfaces like wood,
-    concrete, tiles, and carpets.\n\nAim down at the floor or a tabletop, and move
-    your phone slowly in a circle.\n\nMake sure the lighting isn\u2019t too dark or
-    too bright."
+  m_Text: "1. \u0427\u0442\u043E\u0431\u044B \u043F\u0435\u0432\u0435\u0440\u043D\u0443\u0442\u044C,
+    \u0443\u0432\u0435\u043B\u0438\u0447\u0438\u0442\u044C/\u0443\u043C\u0435\u043D\u044C\u0448\u0438\u0442\u044C
+    \u043C\u043E\u0434\u0435\u043B\u044C, \u0434\u0432\u0430\u0436\u0434\u044B \u043A\u043B\u0438\u043A\u043D\u0438\u0442\u0435
+    \u043D\u0430 \u043D\u0435\u0451.\n\n2. \u0427\u0442\u043E\u0431\u044B \u0432\u043A\u043B\u044E\u0447\u0438\u0442\u044C
+    AR \u043C\u0435\u043D\u044E, \u043A\u043B\u0438\u043A\u043D\u0438\u0442\u0435
+    \u0438 \u0443\u0434\u0435\u0440\u0436\u0438\u0432\u0430\u0439\u0442\u0435 \u043F\u0430\u043B\u0435\u0446
+    \u043D\u0430 \u043C\u043E\u0434\u0435\u043B\u0438."
 --- !u!222 &773224217
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2757,7 +2764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef60d4fc309a67c45bf4443923a0e1d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: moreHelpTitle
+  key: "\u0421ontrolGestures"
 --- !u!114 &822837239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5038,7 +5045,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 209563986116240d6aaec5a6fb7786a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dac136e0b6c0ba548b29d05cefb36c79, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7323,12 +7330,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 58f32fb24e9e04466845025d41f60e05, type: 3}
+  m_Texture: {fileID: 0}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -7407,7 +7414,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 209563986116240d6aaec5a6fb7786a7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dac136e0b6c0ba548b29d05cefb36c79, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7899,8 +7906,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.5, y: -158.89001}
-  m_SizeDelta: {x: -23, y: 295}
+  m_AnchoredPosition: {x: 0, y: -158.89001}
+  m_SizeDelta: {x: -22, y: 295}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224596815111133361
 RectTransform:
