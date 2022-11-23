@@ -24,6 +24,6 @@ Added support of mini games.
 You can see the app in action on [YouTube](https://www.youtube.com/watch?v=JRbTbZynbSY)
 
 # Contacts
-Email: shepuhin@yandex.ru
-Telegram: @Pe3aTeJlb
+Email: shepuhin@yandex.ru  
+Telegram: @Pe3aTeJlb  
 Or visit my [website](https://sites.google.com/view/pplosstudio/%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F)
